@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Church donation report wizard."""
-from helper import _report_range
+from odoo.addons.ng_church.wizard.helper import _report_range
 import datetime
 from odoo import api, fields, models
 from odoo.exceptions import MissingError

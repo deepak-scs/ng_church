@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 """Church Collections consists of all church weekly or monthly collections."""
 import datetime
-from helper import parish
+from odoo.addons.ng_church.models.helper import parish
 
 from odoo import api
 from odoo import fields
@@ -53,16 +53,17 @@ class DonationLine(models.Model):
     @api.onchange('date')
     def _onchange_name(self):
         if self.date:
-            date = self.date.split('-')
-            date.reverse()
-            date = '/'.join(date)
-            timestamps = datetime.datetime.strptime(date, '%d/%m/%Y')
-            self.name = "{:%B %d, %Y}".format(timestamps)
+            # date = self.date.split('-')
+            # date.reverse()
+            # date = '/'.join(date)
+            #timestamps = datetime.datetime.strptime(self.date, '%d/%m/%Y')
+            self.name = self.date.strftime("%B %d, %Y")
+            #("{:%B %d, %Y}".format(timestamps)
 
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
         company = self.env.user.company_id
-        voucher = self.env['account.voucher']
+        #voucher = self.env['account.voucher']
         payload = {
             'company_id': company.id,
             'partner_id': self.env.user.partner_id.id,
@@ -77,7 +78,7 @@ class DonationLine(models.Model):
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
-        voucher_line = self.env['account.voucher.line']
+        #voucher_line = self.env['account.voucher.line']
         payload = {
             # 'product_id': voucher_id.company_id.id,
             'name': self.notes,
@@ -153,16 +154,13 @@ class TitheLine(models.Model):
     @api.onchange('date')
     def _onchange_name(self):
         if self.date:
-            date = self.date.split('-')
-            date.reverse()
-            date = '/'.join(date)
-            timestamps = datetime.datetime.strptime(date, '%d/%m/%Y')
-            self.name = "{:%B %d, %Y}".format(timestamps)
+           
+            self.name = self.date.strftime("%B %d, %Y")
 
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
         company = self.env.user.company_id
-        voucher = self.env['account.voucher']
+        #voucher = self.env['account.voucher']
         payload = {
             'company_id': company.id,
             'partner_id': self.env.user.partner_id.id,
@@ -177,7 +175,7 @@ class TitheLine(models.Model):
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
-        voucher_line = self.env['account.voucher.line']
+       # voucher_line = self.env['account.voucher.line']
         payload = {
             # 'product_id': voucher_id.company_id.id,
             'name': 'Tithe',
@@ -242,16 +240,13 @@ class OfferingLine(models.Model):
     @api.onchange('date')
     def _onchange_name(self):
         if self.date:
-            date = self.date.split('-')
-            date.reverse()
-            date = '/'.join(date)
-            timestamps = datetime.datetime.strptime(date, '%d/%m/%Y')
-            self.name = "{:%B %d, %Y}".format(timestamps)
+            
+            self.name = self.date.strftime("%B %d, %Y")
 
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
         company = self.env.user.company_id
-        voucher = self.env['account.voucher']
+       # voucher = self.env['account.voucher']
         payload = {
             'company_id': company.id,
             'partner_id': self.env.user.partner_id.id,
@@ -265,7 +260,7 @@ class OfferingLine(models.Model):
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
-        voucher_line = self.env['account.voucher.line']
+       # voucher_line = self.env['account.voucher.line']
         payload = {
             'name': 'Offering',
             'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
@@ -337,7 +332,7 @@ class PledgeLine(models.Model):
             self.write({'state': 'active'})
         self.balance = 0.0 if (self.amount - self.paid) < 1 else (self.amount - self.paid)
 
-    @api.multi
+    
     def send_by_email(self):
         """Send report via email."""
         ir_model_data = self.env['ir.model.data']
@@ -377,7 +372,7 @@ class PledgeLine(models.Model):
             raise MissingError('Set church email address')
         return {res_id[0]: self.env.user.company_id.email}
 
-    @api.multi
+    
     def print_report(self):
         """Direct Report printing."""
         return self.env['report'].get_action(self, 'ng_church.print_pledge_report')
@@ -385,7 +380,7 @@ class PledgeLine(models.Model):
     def _prepare_account_voucher(self):
         """Generate Account Invoice."""
         company = self.env.user.company_id
-        voucher = self.env['account.voucher']
+       # voucher = self.env['account.voucher']
         voucher = voucher.create({
             'partner_id': company.partner_id.id,
             'pay_now': 'pay_now',
@@ -400,7 +395,7 @@ class PledgeLine(models.Model):
 
     def _prepare_account_voucher_line(self, voucher_id):
         company = self.env.user.company_id
-        voucher_line = self.env['account.voucher.line']
+        #voucher_line = self.env['account.voucher.line']
         payload = {
             'name': voucher_id.name,
             'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.

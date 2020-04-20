@@ -3,15 +3,15 @@
     <data>
 
         <record id="ng_church_pledge_wizard" model="ir.ui.view">
-            <field name="name">church.pledge.wizard.form</field>
-            <field name="model">ng_church.pledge_wizard</field>
+            <field name="name">church.pledge.wizard</field>
+            <field name="model">ng_church.pledge</field>
             <field name="arch" type="xml">
                 <form string="Church Pledges">
                     <group>
                          <group>
-                            <field name="pledge"/>
+                            <!-- <field name="Pledges"/> -->
                         </group>
-                        <group/>
+                        
                     </group>
 	                <footer>
                         <button name="check_report" string="Print" type="object" class="oe_highlight"/>

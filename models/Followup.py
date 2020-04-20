@@ -39,7 +39,7 @@ class MemberFollowUp(models.Model):
         stage_ids = stages._search([], order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
 
-    @api.multi
+    
     def _compute_kanban_state(self):
         today = date.today()
         for follow_ups in self:
@@ -80,7 +80,7 @@ class FirstTimerFollowUp(models.Model):
         stage_ids = stages._search([], order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
 
-    @api.multi
+    
     def _compute_kanban_state(self):
         today = date.today()
         for follow_ups in self:

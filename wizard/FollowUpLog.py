@@ -18,8 +18,8 @@ class FollowupLog(models.TransientModel):
 
     def log_and_schedule(self):
         """log and schedule next activity for both."""
-        print """log and schedule next activity for both."""
+        print ('"""log and schedule next activity for both."""')
 
     def log(self):
         """log next activity for both."""
-        print """log next activity for both."""
+        print(' """log next activity for both."""')

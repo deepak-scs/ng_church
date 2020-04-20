@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Church Management',
-    'version': '0.1',
-    'author': 'Matt \'O Bell',
-    'website': 'www.mattobell.com',
+    'version': '13.0.1.0.1',
+    'author': 'Matt \'O Bell, Serpent Consulting Services Pvt. Ltd.',
+    'website': 'www.serpentcs.com',
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Church Management""",
     'description': """
 Church Management
 =================
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-temporincididunt ut labore et dolore magna aliqua.Ut enim ad minim
-veniam, quisnostrud exercitation ullamco laboris nisi utaliquip
-ex ea commodo consequat.
-Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia
-deserunt mollit anim id est laborum
         """,
     'data': [
             'views/actions.xml',
@@ -47,14 +40,14 @@ deserunt mollit anim id est laborum
     ],
     'depends': [
         'account',
-        'account_accountant',
+        # 'account_accountant',
         'event',
-        'marketing_campaign',
+        # 'marketing_campaign',
         'sale',
         'purchase',
         'crm',
         'project',
-        'account_voucher'
+        # 'account_voucher'
     ],
     'category': 'Human Resources',
     'application': True,

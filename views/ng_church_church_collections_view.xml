@@ -158,7 +158,8 @@
             <field name="name">Church Tithes Line Tree View</field>
             <field name="model">ng_church.tithe_lines</field>
             <field name="arch" type="xml">
-                <tree colors="grey:is_invoiced==True" default_order="desc">
+                <!-- <tree colors="grey:is_invoiced==True" default_order="desc"> -->
+                    <tree>
                     <field name="name"/>
                     <field name="tithe_type"/>
                     <field name="tither"/>
@@ -228,7 +229,7 @@
             <field name="model">ng_church.tithe</field>
             <field name="arch" type="xml">
                 <tree>
-                    <!-- <field name="date"/> -->
+                    <field name="name"/>
                     <field name="section_id"/>
                     <field name="service_id"/>
                 </tree>
@@ -236,18 +237,18 @@
         </record>
 
         <!--Tithe Search View  -->
-        <record id="ng_church_tithe_search_view" model="ir.ui.view">
+        <!-- <record id="ng_church_tithe_search_view" model="ir.ui.view">
             <field name="name">Church Tithes Search View</field>
             <field name="model">ng_church.tithe</field>
             <field name="arch" type="xml">
-                <search colors="gray:is_invoiced==True">
+                <search>
                     <field name="name"/>
-                    <filter string="Invoiced" domain="[('is_invoiced', '=', True)]"/>
-                    <separator/>
-                    <filter string="Pastor's Tithes" domain="[('is_pastor_tithe', '=', True)]"/>
+                    <field name="service_id"/>
+                    <filter string="Invoiced" domain="[('is_invoiced', '=', True)]" contaxt ="{}"/>
+                    <filter string="Pastor's Tithes" domain="[('is_pastor_tithe', '=', True)]" contaxt = "{}"/>
                 </search>
             </field>
-        </record>
+        </record> -->
 
         <!--Church offering lines view  -->
         <record id="ng_church_offering_lines_form_view" model="ir.ui.view">

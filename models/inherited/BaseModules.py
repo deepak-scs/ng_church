@@ -6,8 +6,8 @@ from odoo import api
 from odoo import fields
 from odoo import models
 from odoo.exceptions import ValidationError
-from ..helper import parish
-from ..helper import default_date
+from odoo.addons.ng_church.models.helper import parish
+from odoo.addons.ng_church.models.helper import default_date
 import odoo.addons.decimal_precision as dp
 
 
@@ -18,27 +18,27 @@ class Project(models.Model):
     x_date = fields.Date(string='Start date', default=default_date)
 
 
-class AccountVoucherLine(models.Model):
-    """Overide account.voucher line_ids, from readonly=True to False."""
+# class AccountVoucherLine(models.Model):
+#     """Overide account.voucher line_ids, from readonly=True to False."""
 
-    _inherit = 'account.voucher.line'
-    price_unit = fields.Float(string='Unit Price', required=True,
-                              digits=dp.get_precision('Product Price'))
+#     _inherit = 'account.voucher.line'
+#     price_unit = fields.Float(string='Unit Price', required=True,
+#                               digits=dp.get_precision('Product Price'))
 
 
-class AccountVoucher(models.Model):
-    """Overide account.voucher line_ids, from readonly=True to False."""
+# class AccountVoucher(models.Model):
+#     """Overide account.voucher line_ids, from readonly=True to False."""
 
-    _inherit = 'account.voucher'
-    line_ids = fields.One2many('account.voucher.line', 'voucher_id', 'Voucher Lines',
-                               readonly=False, copy=True,
-                               states={'draft': [('readonly', False)]})
+#     _inherit = 'account.voucher'
+#     line_ids = fields.One2many('account.voucher.line', 'voucher_id', 'Voucher Lines',
+#                                readonly=False, copy=True,
+#                                states={'draft': [('readonly', False)]})
 
 
 class AccountInvoice(models.Model):
     """AccountInvoice."""
 
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     # church_section_id = fields.Many2one('church.sections', string="Church Section")
     # fee_category_id = fields.Many2one('church.fees.category', string="Collection Source")

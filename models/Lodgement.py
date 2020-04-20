@@ -3,7 +3,7 @@
 from odoo import api
 from odoo import fields
 from odoo import models
-from helper import parish
+from odoo.addons.ng_church.models.helper import parish
 from odoo.exceptions import UserError, ValidationError, MissingError
 
 
@@ -38,8 +38,8 @@ class Lodgement(models.Model):
             {'journal_id': self.journal_id.id, 'amount': self.amount, 'date': self.date})
         return account_move
 
-    @api.one
-    @api.multi
+    
+    
     def _prepare_first_account_move_line(self, move_id):
         payload = {
             'name': self.description,
@@ -55,8 +55,8 @@ class Lodgement(models.Model):
         account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
         account_move_line.create(payload)
 
-    @api.one
-    @api.multi
+    
+    
     def _prepare_second_account_move_line(self, move_id):
         if self.journal_id.default_debit_account_id.id == False:
             raise MissingError(
@@ -74,8 +74,8 @@ class Lodgement(models.Model):
         account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
         account_move_line.create(payload)
 
-    @api.one
-    @api.multi
+    
+    
     def lodge(self):
         """lodgement."""
         move = self._prepare_account_move()

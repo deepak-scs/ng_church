@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    
         <report id="pledge_report_reg"
-            name="ng_church.print_pledge_report"
+            name="ng_church.print_pledge_report" string="Pledge Balance"
             model="ng_church.pledge_line"
             file="ng_church.print_pledge_report"
-            report_type='qweb-pdf' auto="False"
-            string="Pledge Balance"/>
+            report_type='qweb-pdf' />
 
          <report id="ng_church_pledges_report"
              model="ng_church.pledge" string="Pledge Payments Report"
@@ -47,5 +46,5 @@
                 report_type="qweb-html"
                 menu="False" />
 
-    </data>
+    
 </odoo>

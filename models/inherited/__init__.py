@@ -1,3 +1,4 @@
 # -*- coding: utf-8 *-*
 
-import BaseModules
+from . import BaseModules
+

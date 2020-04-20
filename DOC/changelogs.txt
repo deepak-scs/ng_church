@@ -1,0 +1,42 @@
+path for run this project
+	python3 odoo-bin --addons=addons/,../../workspace/ -i ng_church -d NG_v13
+
+
+
+1) for change xmlrpc-ports and give a new database name
+  python3 odoo-bin --addons=addons/ --xmlrpc-port=4444 -d test
+2) -i for integration, -d for database, -u for upgrade,
+
+3)when you getting error check error and its uper line that is path of error
+
+4)im facing helper importing error so example is from ..helper import parish
+	in this the error is helper not found, as ofit its working on version 10 in odoo
+	as that i have facing this error and solution is 
+			from odoo.addons.(folder name).(folders sub folder (if it has)).filename import parish
+			(in this parish is a method name which calling by def parish)
+
+5) in v13 account.invoice is updated with account.move
+
+6) there are many was to solve the error in this next error is group error 
+	in the group some changes in versions there are perfect format you have to follow
+	group has fix name, string,icon(if you required),doman,contaxt 
+
+7) Some extra learning for github how to use and how the all commonds is solve 
+	git clone, git fetch,git branch, 
+
+8) Element '<xpath expr="//field[@name='date_invoice']">' cannot be located in parent view
+ View `inherited accoount.invoice.church`
+[view_id: 1251, xml_id: n/a, model: account.move, parent_id: 599]" while parsing /home/odoo/workspace/ng_church/views/inherited/account_invoice_view.xml
+
+9 ) Same Error of updated version xpath error is multiple as for that i didnt show here,
+
+10) still pending i con not solve it this in (ng_church_collections_wizard_view.xml)
+	 					<group>
+                            <!-- <field name="Pledges"/> -->
+                        </group>
+    Solve :- this error is extract an double so it confuse 
+
+11) there are on more search error is pending didnt solve 
+		ng_church_collections_view.xml
+	there are no field in defined 
+

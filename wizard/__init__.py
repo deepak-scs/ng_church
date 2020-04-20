@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import Pledge
-import Tithes
-import Offering
-import Donation
-import Attendance
-import FollowUpLog
+from . import Pledge
+from . import Tithes
+from . import Offering
+from . import Donation
+from . import Attendance
+from . import FollowUpLog

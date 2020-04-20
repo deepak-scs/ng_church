@@ -45,7 +45,7 @@ class church_guarantor(models.Model):
     notes = fields.Text(string='Notes')
     emp_id = fields.Many2one('res.partner', string='Employee')
 
-    @api.multi
+    
     @api.constrains('email')
     def _check_email(self):
         email_re = re.compile(r"""
@@ -82,7 +82,7 @@ class church_nextofkin(models.Model):
     notes = fields.Text(string='Notes')
     emp_id = fields.Many2one('res.partner', string='Employee')
 
-    @api.multi
+    
     @api.constrains('email')
     def _check_email(self):
         email_re = re.compile(r"""
@@ -125,15 +125,15 @@ class church_ref(models.Model):
     notes = fields.Text('Notes')
     emp_id = fields.Many2one('res.partner', string='Employee')
 
-    @api.multi
+    
     def verify(self):
         return self.write({'state': 'verify', 'user': self._uid})
 
-    @api.multi
+    
     def notverify(self):
         return self.write({'state': 'not_verify', 'user': self._uid})
 
-    @api.multi
+    
     @api.constrains('email')
     def _check_email(self):
         email_re = re.compile(r"""

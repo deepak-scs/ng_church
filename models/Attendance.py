@@ -4,9 +4,9 @@ import datetime
 from odoo import api
 from odoo import fields
 from odoo import models
-from helper import parish
-from helper import program_default_date
-from helper import default_date
+from odoo.addons.ng_church.models.helper import parish
+from odoo.addons.ng_church.models.helper import program_default_date
+from odoo.addons.ng_church.models.helper import default_date
 
 
 class ProgramAttendance(models.Model):
@@ -23,7 +23,8 @@ class ProgramAttendance(models.Model):
     @api.onchange('name')
     def _onchange_name(self):
         date = program_default_date(self)
-        self.date = date
+        if(date != False):
+            self.date = date
 
     class AttendanceLine(models.Model):
         """."""
@@ -42,11 +43,8 @@ class ProgramAttendance(models.Model):
         @api.onchange('date')
         def _onchange_name(self):
             if self.date:
-                date = self.date.split('-')
-                date.reverse()
-                date = '/'.join(date)
-                timestamps = datetime.datetime.strptime(date, '%d/%m/%Y')
-                self.name = "{:%B %d, %Y}".format(timestamps)
+                
+                self.name = self.date.strftime("%B %d, %Y")
 
         @api.onchange('male', 'female', 'guest', 'children')
         def _onchage_population(self):
@@ -59,7 +57,7 @@ class ProgramAttendance(models.Model):
                 self.total = sumamtion
 
         @api.depends('male', 'female', 'guest', 'children')
-        @api.one
+        
         def _compute_total(self):
             """Calcalate total number of male, female, and children."""
             sumamtion = abs(int(self.male)) + abs(int(self.female)) + abs(int(self.guest))
