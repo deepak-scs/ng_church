@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from odoo import fields, models, api
+from odoo import fields, models
 
 
 class hr_employee(models.Model):

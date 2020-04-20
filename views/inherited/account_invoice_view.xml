@@ -9,12 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="church_id" readonly="1"/>
-                </xpath>
-                <!-- <xpath expr="//field[@name='date_invoice']" position="after">
-                    <field name="church_section_id"/>
-                    <field name="fee_category_id"/>
-                    <field name="church_service_id"/>
-                </xpath> -->
+                </xpath>                
             </field>
         </record>
 

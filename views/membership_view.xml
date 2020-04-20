@@ -80,7 +80,6 @@
             <field name="name">Guarantors</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">church.guarantor</field>
-            <!-- <field name="view_type">form</field> -->
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -157,10 +156,10 @@
                     <field name="tel2" />
                     <field name="status" />
                     <group expand="0" string="Group By...">
-                        <filter name='a' string="Member" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'emp_id'}" />
-                        <filter name='b' string="Marital" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'marital'}" />
-                        <filter name='c' string="Gender" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'gender'}" />
-                        <filter name='d' string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'status'}" />
+                        <filter name='Member' string="Member" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'emp_id'}" />
+                        <filter name='Marital' string="Marital" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'marital'}" />
+                        <filter name='Gender' string="Gender" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'gender'}" />
+                        <filter name='Status' string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'status'}" />
                     </group>
                 </search>
             </field>
@@ -170,7 +169,6 @@
             <field name="name">Member References</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">church.refs</field>
-            <!-- <field name="view_type">form</field> -->
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -240,10 +238,10 @@
                     <field name="tel2" />
                     <field name="status" />
                     <group string="Group By...">
-                        <filter name='a' string="Member" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'emp_id'}" />
-                        <filter name='b' string="Marital" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'marital'}" />
-                        <filter name='c' string="Gender" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'gender'}" />
-                        <filter name='d' string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'status'}" />
+                        <filter name='Member' string="Member" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'emp_id'}" />
+                        <filter name='Marital' string="Marital" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'marital'}" />
+                        <filter name='Gender' string="Gender" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'gender'}" />
+                        <filter name='Status' string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'status'}" />
                     </group>
                 </search>
             </field>
@@ -253,7 +251,6 @@
             <field name="name">Next of kins</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">church.nextofkin</field>
-            <!-- <field name="view_type">form</field> -->
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -299,8 +296,7 @@
                         </group>
                         <separator string="Other Information"/>
                         <group>
-                            <group>
-                                <!-- <field name="related_employee_id"/> -->
+                            <group>                               
                                 <field name="dob"/>
                             </group>
                             <group>

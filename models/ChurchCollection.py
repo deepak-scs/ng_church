@@ -3,9 +3,7 @@
 import datetime
 from odoo.addons.ng_church.models.helper import parish
 
-from odoo import api
-from odoo import fields
-from odoo import models
+from odoo import api, fields, models
 from odoo.exceptions import AccessError, MissingError, UserError, ValidationError
 
 
@@ -52,18 +50,13 @@ class DonationLine(models.Model):
 
     @api.onchange('date')
     def _onchange_name(self):
-        if self.date:
-            # date = self.date.split('-')
-            # date.reverse()
-            # date = '/'.join(date)
-            #timestamps = datetime.datetime.strptime(self.date, '%d/%m/%Y')
+        if self.date:            
             self.name = self.date.strftime("%B %d, %Y")
-            #("{:%B %d, %Y}".format(timestamps)
+           
 
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
         company = self.env.user.company_id
-        #voucher = self.env['account.voucher']
         payload = {
             'company_id': company.id,
             'partner_id': self.env.user.partner_id.id,
@@ -78,9 +71,7 @@ class DonationLine(models.Model):
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
-        #voucher_line = self.env['account.voucher.line']
         payload = {
-            # 'product_id': voucher_id.company_id.id,
             'name': self.notes,
             'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
             'price_unit': self.amount,
@@ -121,14 +112,7 @@ class Tithe(models.Model):
     church_id = fields.Many2one('res.company', string='Church\'s Tithe', default=parish)
     is_pastor_tithe = fields.Boolean(string='Minister\'s Tithe')
     tithe_line_ids = fields.One2many('ng_church.tithe_lines', 'tithe_id', string='Tithes')
-    # date = fields.Date(string='Date')
-    #
-    # @api.onchange('service_id')
-    # def _onchange_name(self):
-    #     date = program_default_date_tithe(self)
-    #     self.date = date
-
-
+    
 class TitheLine(models.Model):
     """One tenth of produce or earnings, formerly taken as a tax for the support of the church and clergy."""
 
@@ -160,7 +144,6 @@ class TitheLine(models.Model):
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
         company = self.env.user.company_id
-        #voucher = self.env['account.voucher']
         payload = {
             'company_id': company.id,
             'partner_id': self.env.user.partner_id.id,
@@ -175,9 +158,7 @@ class TitheLine(models.Model):
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
-       # voucher_line = self.env['account.voucher.line']
         payload = {
-            # 'product_id': voucher_id.company_id.id,
             'name': 'Tithe',
             'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
             'price_unit': self.amount,
@@ -246,7 +227,6 @@ class OfferingLine(models.Model):
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
         company = self.env.user.company_id
-       # voucher = self.env['account.voucher']
         payload = {
             'company_id': company.id,
             'partner_id': self.env.user.partner_id.id,
@@ -260,7 +240,6 @@ class OfferingLine(models.Model):
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
-       # voucher_line = self.env['account.voucher.line']
         payload = {
             'name': 'Offering',
             'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
@@ -380,7 +359,6 @@ class PledgeLine(models.Model):
     def _prepare_account_voucher(self):
         """Generate Account Invoice."""
         company = self.env.user.company_id
-       # voucher = self.env['account.voucher']
         voucher = voucher.create({
             'partner_id': company.partner_id.id,
             'pay_now': 'pay_now',
@@ -395,7 +373,6 @@ class PledgeLine(models.Model):
 
     def _prepare_account_voucher_line(self, voucher_id):
         company = self.env.user.company_id
-        #voucher_line = self.env['account.voucher.line']
         payload = {
             'name': voucher_id.name,
             'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.

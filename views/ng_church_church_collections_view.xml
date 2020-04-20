@@ -235,21 +235,7 @@
                 </tree>
             </field>
         </record>
-
-        <!--Tithe Search View  -->
-        <!-- <record id="ng_church_tithe_search_view" model="ir.ui.view">
-            <field name="name">Church Tithes Search View</field>
-            <field name="model">ng_church.tithe</field>
-            <field name="arch" type="xml">
-                <search>
-                    <field name="name"/>
-                    <field name="service_id"/>
-                    <filter string="Invoiced" domain="[('is_invoiced', '=', True)]" contaxt ="{}"/>
-                    <filter string="Pastor's Tithes" domain="[('is_pastor_tithe', '=', True)]" contaxt = "{}"/>
-                </search>
-            </field>
-        </record> -->
-
+        
         <!--Church offering lines view  -->
         <record id="ng_church_offering_lines_form_view" model="ir.ui.view">
             <field name="name">ng_church_offering_lines_form_view</field>
@@ -416,9 +402,5 @@
                 </tree>
             </field>
         </record>
-
-
-
-
     </data>
 </odoo>

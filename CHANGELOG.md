@@ -1,9 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2017-05-04
+## 20-04-2020
 ### Change
-* Upgrade from Odoo version 9 to 10.0
+* Upgrade from Odoo version 10.0 to 13.0
 ## 2017-05-03
 ### Add
 * Add actions.xml file, this is to serve as central container of all actions
