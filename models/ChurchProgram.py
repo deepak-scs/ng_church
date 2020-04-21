@@ -1,8 +1,7 @@
 # *-* coding:utf-8 -*-
 """."""
-from odoo import fields
-from odoo import models
-from odoo.addons.ng_church.models.helper import parish
+from odoo import fields, models
+from .helper import parish
 
 
 class ChurchProgram(models.Model):
@@ -18,5 +17,4 @@ class ChurchProgram(models.Model):
     start_meridiem = fields.Selection([('AM', 'AM'), ('PM', 'PM')],string='')
     end = fields.Float(string='End Time')
     end_meridiem = fields.Selection([('AM', 'AM'), ('PM', 'PM')],string='')
-    # meridiem = fields.Selection([('AM', 'AM'), ('PM', 'PM'), ('AM', 'PM'), ('PM', 'AM')], string='')
     parish_id = fields.Many2one('res.company', string='Parish', default=parish)

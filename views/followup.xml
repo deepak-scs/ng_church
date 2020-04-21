@@ -37,7 +37,6 @@
                                         </p>
                                 </div>
                                 <div class="oe_kanban_bottom_right">
-                                    <!-- <field name="kanban_state" class="oe_inline" widget="kanban_state_selection"/> -->
                                     <a name="%(ng_church.ng_church_follow_up_log_action)d" type="action" t-if="record.kanban_state.raw_value !='grey'">
                                         <span t-att-title="record.date_action.value + ': '+record.next_activity_id.value +' '+record.name.value"
                                             t-attf-class="oe_kanban_status oe_kanban_status_#{record.kanban_state.raw_value}"/>
@@ -90,7 +89,6 @@
                                         </p>
                                 </div>
                                 <div class="oe_kanban_bottom_right">
-                                    <!-- <field name="kanban_state" class="oe_inline" widget="kanban_state_selection"/> -->
                                     <a name="%(ng_church.ng_church_follow_up_log_action)d" type="action" t-if="record.kanban_state.raw_value !='grey'">
                                         <span t-att-title="record.date_action.value + ': '+record.next_activity_id.value +' '+record.name.value"
                                             t-attf-class="oe_kanban_status oe_kanban_status_#{record.kanban_state.raw_value}"/>

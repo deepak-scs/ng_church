@@ -38,8 +38,7 @@
             <field name="name">Pledge</field>
             <field name="res_model">ng_church.pledge</field>
             <field name = 'type'>ir.actions.act_window</field>
-            <field name="view_mode">form</field>
-            <!-- <field name="view_id" ref="ng_church.ng_church_pledge_wizard"/> -->
+            <field name="view_mode">form</field>            
             <field name="target">new</field>
         </record>
 
@@ -105,7 +104,6 @@
             <field name='name'>Church</field>
 			<field name='res_model'>res.company</field>
             <field name = 'type'>ir.actions.act_window</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
 			<field name="help" type="xml">
 				<p class="oe_view_nocontent_create">
@@ -120,7 +118,6 @@
             <field name='name'>FellowShip</field>
             <field name='res_model'>fellowship</field>
             <field name = 'type'>ir.actions.act_window</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
         </record>
 
@@ -130,25 +127,14 @@
             <field name='name'>Membership Status</field>
             <field name='res_model'>membership.status</field>
             <field name = 'type'>ir.actions.act_window</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
         </record>
 
-        <!--Church Services Action-->
-        <!-- <record id='ng_church_service_action' model='ir.actions.act_window'>
-            <field name='name'>Church Services</field>
-            <field name='res_model'>ng_church.service</field>
-            <field name = 'type'>ir.actions.act_window</field>
-            <field name='view_type'>form</field>
-            <field name='view_mode'>tree,form</field>
-        </record>
- -->
 		<!--Church Services Action-->
 		<record id='ng_church_service_type_action' model='ir.actions.act_window'>
 			<field name='name'>Church Services</field>
 			<field name='res_model'>ng_church.program</field>
             <field name = 'type'>ir.actions.act_window</field>
-			<!-- <field name='view_type'>form</field> -->
 			<field name='view_mode'>tree,form</field>
 		</record>
 
@@ -157,7 +143,6 @@
 			<field name='name'>Church Tithes</field>
 			<field name='res_model'>ng_church.tithe</field>
             <field name = 'type'>ir.actions.act_window</field>
-			<!-- <field name='view_type'>form</field> -->
 			<field name='view_mode'>tree,form</field>
 		</record>
 
@@ -166,7 +151,6 @@
 			<field name='name'>Church Offering</field>
 			<field name='res_model'>ng_church.offering</field>
             <field name = 'type'>ir.actions.act_window</field>
-			<!-- <field name='view_type'>form</field> -->
 			<field name='view_mode'>tree,form</field>
 		</record>
 
@@ -175,7 +159,6 @@
 		   <field name='name'>Church Donation</field>
 		   <field name='res_model'>ng_church.donation</field>
            <field name = 'type'>ir.actions.act_window</field>
-		   <!-- <field name='view_type'>form</field> -->
 		   <field name='view_mode'>tree,form</field>
 	   </record>
 
@@ -183,7 +166,6 @@
         <record id='church_pleadge_action' model='ir.actions.act_window'>
             <field name='name'>Church Pledge</field>
             <field name='res_model'>ng_church.pledge</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
         </record>
 
@@ -227,7 +209,6 @@
         <record id="ng_church_service_attendance_action" model='ir.actions.act_window'>
             <field name='name'>Church Attendance</field>
             <field name='res_model'>ng_church.attendance</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
         </record>
 
@@ -235,7 +216,6 @@
         <record id='church_sections_action' model='ir.actions.act_window'>
             <field name='name'>Church Sections</field>
             <field name='res_model'>church.sections</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
         </record>
 
@@ -243,7 +223,6 @@
         <record id='membership_category_action' model='ir.actions.act_window'>
             <field name='name'>Membership Category</field>
             <field name='res_model'>membership.category</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
         </record>
 
@@ -251,7 +230,6 @@
         <record id='membership_type_action' model='ir.actions.act_window'>
             <field name='name'>Membership Type</field>
             <field name='res_model'>membership.type</field>
-            <!-- <field name='view_type'>form</field> -->
             <field name='view_mode'>tree,form</field>
         </record>
 

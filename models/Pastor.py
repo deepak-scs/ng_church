@@ -2,9 +2,7 @@
 """."""
 import re
 
-from odoo import api
-from odoo import fields
-from odoo import models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 

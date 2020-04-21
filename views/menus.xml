@@ -122,19 +122,5 @@
                   parent="church_event_config_main_menu"
                   action="event.action_event_type"/>
 
-        <!--Church Growth Main Menu-->
-
-
-        <!--Growth Segment Menu-->
-<!--         <menuitem id="growth_segment_menu"
-                  name="Growth Segment"
-                  parent="ng_church_growth_main_menu"
-                  action="marketing_campaign.action_marketing_campaign_segment_form"/>
-        Growth Campaign Menu
-        <menuitem id="growth_campaign_menu"
-                  name="Growth Campaign"
-                  parent="ng_church_growth_main_menu"
-                  action="marketing_campaign.action_marketing_campaign_form"/>
- -->
 	</data>
 </odoo>

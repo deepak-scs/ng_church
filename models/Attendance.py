@@ -1,12 +1,10 @@
 # -*- coding:utf-8 -*-
 """."""
 import datetime
-from odoo import api
-from odoo import fields
-from odoo import models
-from odoo.addons.ng_church.models.helper import parish
-from odoo.addons.ng_church.models.helper import program_default_date
-from odoo.addons.ng_church.models.helper import default_date
+from odoo import api, fields, models
+from .helper import parish
+from .helper import program_default_date
+from .helper import default_date
 
 
 class ProgramAttendance(models.Model):
@@ -23,8 +21,7 @@ class ProgramAttendance(models.Model):
     @api.onchange('name')
     def _onchange_name(self):
         date = program_default_date(self)
-        if(date != False):
-            self.date = date
+        self.date = date
 
     class AttendanceLine(models.Model):
         """."""

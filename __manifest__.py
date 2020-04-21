@@ -3,7 +3,7 @@
     'name': 'Church Management',
     'version': '13.0.1.0.1',
     'author': 'Matt \'O Bell, Serpent Consulting Services Pvt. Ltd.',
-    'website': 'www.serpentcs.com',
+    'website': 'https://www.serpentcs.com',
     'summary': """
         Church Management""",
     'description': """
@@ -40,14 +40,11 @@ Church Management
     ],
     'depends': [
         'account',
-        # 'account_accountant',
         'event',
-        # 'marketing_campaign',
         'sale',
         'purchase',
         'crm',
         'project',
-        # 'account_voucher'
     ],
     'category': 'Human Resources',
     'application': True,

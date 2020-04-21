@@ -2,12 +2,10 @@
 """Inplace inherited model."""
 import re
 
-from odoo import api
-from odoo import fields
-from odoo import models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.addons.ng_church.models.helper import parish
-from odoo.addons.ng_church.models.helper import default_date
+from ..helper import parish
+from ..helper import default_date
 import odoo.addons.decimal_precision as dp
 
 

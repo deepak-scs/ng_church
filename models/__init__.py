@@ -20,23 +20,12 @@
 ##############################################################################
 
 from . import helper
-print('helper')
 from . import ng_church
-print('ng_church')
 from . import membership
-print('membership')
 from . import Pastor
-print('Pastor')
 from . import Attendance
-print('Attendance')
-
 from . import ChurchProgram
-print('ChurchProgram')
-
 from . import ChurchCollection
-print('ChurchCollection')
 from . import Lodgement
-print('Lodgement')
 from . import Followup
-print('Followup')
 from . import inherited
