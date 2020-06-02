@@ -10,6 +10,7 @@ class ChurchDonationLineAbstractModel(models.AbstractModel):
     """Church DonationLine Abstract Model."""
 
     _name = 'report.ng_church.church_donation_report'
+    _description = "Report NG Church Church Donation Report"
 
     def donation_caculator(self, model):
         """donation_caculator."""
@@ -34,17 +35,21 @@ class DonationReportWizard(models.Model):
     """."""
 
     _name = 'ng_church.donation_wizard'
+    _description = "NG Church Donation Wizard"
 
     date_from = fields.Date(string='Date from')
     date_to = fields.Date(
-        string='Date to', default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
+        string='Date to',
+        default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
     donation = fields.Many2one('ng_church.donation', required=True)
 
     def check_report(self):
         """."""
-        church = [('church_id', '=', self.env.user.company_id.id), ('id', '=', self.donation.id)]
+        church = [('church_id', '=', self.env.user.company_id.id),
+                  ('id', '=', self.donation.id)]
         donation = self.donation.search(church).donation_line_ids
         donations = _report_range(donation, self.date_from, self.date_to)
         if len(donations) > 0:
-            return self.env['report'].get_action(donations, 'ng_church.church_donation_report')
+            return self.env['report'].\
+                get_action(donations, 'ng_church.church_donation_report')
         raise MissingError('Record not found')

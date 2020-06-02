@@ -8,6 +8,7 @@ class ChurchSection(models.Model):
     """."""
 
     _name = 'church.sections'
+    _description = "Church Sections"
 
     name = fields.Char('Church Name', required=True)
     code = fields.Char('Code')
@@ -19,6 +20,7 @@ class MembershipCategory(models.Model):
     """."""
 
     _name = 'membership.category'
+    _description = "Membership Category"
 
     name = fields.Char('Name', required=True)
     start_age = fields.Integer('Age Start')
@@ -29,6 +31,7 @@ class MembershipType(models.Model):
     """."""
 
     _name = 'membership.type'
+    _description = "Membership Type"
 
     name = fields.Char('Name', required=True)
     code = fields.Char('Code')
@@ -39,6 +42,7 @@ class MembershipStatus(models.Model):
     """."""
 
     _name = 'membership.status'
+    _description = "Membership Status"
 
     name = fields.Char('Name', required=True)
     code = fields.Char('Code')
@@ -49,10 +53,11 @@ class Fellowship(models.Model):
     """."""
 
     _name = 'fellowship'
+    _description = "Fellowship"
 
     name = fields.Char('Name', required=True)
-    marital_status = fields.Selection([('single', 'Single'),
-                                       ('married', 'Married'),
-                                       ('widower', 'Widower'),
-                                       ('divorced', 'Divorced')], string="Marital Status")
-    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')
+    marital_status = fields.Selection(
+        [('single', 'Single'), ('married', 'Married'), ('widower', 'Widower'),
+         ('divorced', 'Divorced')], string="Marital Status")
+    gender = fields.Selection([('male', 'Male'), ('female', 'Female')],
+                              string='Gender')

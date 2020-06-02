@@ -10,6 +10,7 @@ class ChurchTitheLineAbstractModel(models.AbstractModel):
     """Church TitheLine Abstract Model."""
 
     _name = 'report.ng_church.church_tithe_report'
+    _description = "Report NG Church Tithe"
 
     def tithe_caculator(self, model):
         """tithe_caculator."""
@@ -34,12 +35,17 @@ class TitheReportWizard(models.Model):
     """."""
 
     _name = 'ng_church.tithe_wizard'
+    _description = "NG Church Tithe Wizard"
 
     date_from = fields.Date(string='Date from')
-    date_to = fields.Date(
-        string='Date to', default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
-    tithe = fields.Selection(selection=[('all', 'All'), ('members', 'Members'), ('pastor', 'Pastor'),
-                                        ('minister', 'Minister')], string='Category', default='all', required=True)
+    date_to = fields.Date(string='Date to',
+                          default=lambda self: datetime.datetime.now().
+                          strftime('%Y-%m-%d'))
+    tithe = fields.Selection(selection=[('all', 'All'), ('members', 'Members'),
+                                        ('pastor', 'Pastor'),
+                                        ('minister', 'Minister')],
+                             string='Category', default='all',
+                             required=True)
 
     def _report_range(self, model, after, before):
         if after > before:
@@ -58,9 +64,11 @@ class TitheReportWizard(models.Model):
         """."""
         query = self.tithe
         church = ('church_id', '=', self.env.user.company_id.id)
-        domain = [('tithe_type', '=', query), church] if self.tithe != 'all' else [church]
+        domain = [('tithe_type', '=', query),
+                  church] if self.tithe != 'all' else [church]
         tithes = self._report_range(self.env['ng_church.tithe_lines'].search(
             domain), self.date_from, self.date_to)
         if len(tithes) > 0:
-            return self.env['report'].get_action(tithes, 'ng_church.church_tithe_report')
+            return self.env['report'].\
+                get_action(tithes, 'ng_church.church_tithe_report')
         raise MissingError('Record not found')

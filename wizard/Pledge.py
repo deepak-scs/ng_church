@@ -8,6 +8,7 @@ class PledgesReport(models.AbstractModel):
     """PledgesReport."""
 
     _name = 'report.ng_church.church_pledges_report'
+    _description = "Report NG Church Church Pledges Report"
 
     def reports_presenter(self, model):
         """Mutate the state of the original report(s)."""
@@ -32,11 +33,14 @@ class ChurchPledgeReport(models.TransientModel):
     """."""
 
     _name = 'ng_church.pledge_wizard'
+    _description = "NG Church Pledge Wizard"
 
-    pledge = fields.Many2one('ng_church.pledge', string="Pledge", required=True)
+    pledge = fields.Many2one('ng_church.pledge', string="Pledge",
+                             required=True)
 
     def check_report(self):
         """."""
         report = self.pledge.name.name
         pledges = self.env['ng_church.pledge'].search([('name', '=', report)])
-        return self.env['report'].get_action(pledges, 'ng_church.church_pledges_report', data={})
+        return self.env['report'].\
+            get_action(pledges, 'ng_church.church_pledges_report', data={})
