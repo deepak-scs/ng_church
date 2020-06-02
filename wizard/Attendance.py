@@ -10,6 +10,7 @@ class ChurchAttendanceLineAbstractModel(models.AbstractModel):
     """PledgesReport."""
 
     _name = 'report.ng_church.church_attendance_report'
+    _description = "Report NG Church Church Attendance Report"
 
     def attendance_line_mutator(self, model):
         """Mutate the state of the original report(s)."""
@@ -51,16 +52,20 @@ class ChurchAttendanceLine(models.TransientModel):
     """."""
 
     _name = 'ng_church.attendance_wizard'
+    _description = "NG Church Attendance Wizard"
 
-    attendance = fields.Many2one('ng_church.attendance', string="Service", required=True)
+    attendance = fields.Many2one('ng_church.attendance',
+                                 string="Service", required=True)
     date_from = fields.Date(string='Start Date')
     date_to = fields.Date(
-        string='End Date', default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
+        string='End Date',
+        default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
 
     def _report_exist(self, report):
         # check if incomming report is empty, if true return MissingError
         if len(report) <= 0:
-            raise MissingError('Attendance record does not exist for selected date range.')
+            raise MissingError('Attendance record does not'
+                               ' exist for selected date range.')
 
     def check_report(self):
         """."""
@@ -69,16 +74,28 @@ class ChurchAttendanceLine(models.TransientModel):
             [('attendance_id', '=', attendance.id)])
         self._report_exist(report)
         if self.date_from and self.date_to:
-            attendance_line_from = report.filtered(lambda r: r.date >= self.date_from)
-            attendance_line_to = attendance_line_from.filtered(lambda r: r.date <= self.date_to)
+            attendance_line_from = report.filtered(
+                lambda r: r.date >= self.date_from)
+            attendance_line_to = attendance_line_from.filtered(
+                lambda r: r.date <= self.date_to)
             self._report_exist(attendance_line_to)
-            return self.env['report'].get_action(attendance_line_to, 'ng_church.church_attendance_report')
+            return self.env['report'].\
+                get_action(attendance_line_to,
+                           'ng_church.church_attendance_report')
         elif self.date_from:
-            attendance_line_from = report.filtered(lambda r: r.date >= self.date_from)
+            attendance_line_from = report.filtered(
+                lambda r: r.date >= self.date_from)
             self._report_exist(attendance_line_from)
-            return self.env['report'].get_action(attendance_line_from, 'ng_church.church_attendance_report')
+            return self.env['report'].\
+                get_action(attendance_line_from,
+                           'ng_church.church_attendance_report')
         elif self.date_to:
-            attendance_line_to = report.filtered(lambda r: r.date <= self.date_to)
+            attendance_line_to = report.filtered(
+                lambda r: r.date <= self.date_to)
             self._report_exist(attendance_line_to)
-            return self.env['report'].get_action(attendance_line_to, 'ng_church.church_attendance_report')
-        return self.env['report'].get_action(report, 'ng_church.church_attendance_report')
+            return self.env['report'].\
+                get_action(attendance_line_to,
+                           'ng_church.church_attendance_report')
+        return self.env['report'].\
+            get_action(report,
+                       'ng_church.church_attendance_report')

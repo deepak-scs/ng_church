@@ -6,7 +6,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from ..helper import parish
 from ..helper import default_date
-import odoo.addons.decimal_precision as dp
+# import odoo.addons.decimal_precision as dp
 
 
 class Project(models.Model):
@@ -28,7 +28,8 @@ class Project(models.Model):
 #     """Overide account.voucher line_ids, from readonly=True to False."""
 
 #     _inherit = 'account.voucher'
-#     line_ids = fields.One2many('account.voucher.line', 'voucher_id', 'Voucher Lines',
+#     line_ids = fields.One2many('account.voucher.line', 'voucher_id',
+#                                'Voucher Lines',
 #                                readonly=False, copy=True,
 #                                states={'draft': [('readonly', False)]})
 
@@ -38,11 +39,14 @@ class AccountInvoice(models.Model):
 
     _inherit = 'account.move'
 
-    # church_section_id = fields.Many2one('church.sections', string="Church Section")
-    # fee_category_id = fields.Many2one('church.fees.category', string="Collection Source")
+    # church_section_id = fields.Many2one('church.sections',
+    #                                        string="Church Section")
+    # fee_category_id = fields.Many2one('church.fees.category',
+    #                                    string="Collection Source")
     # church_service_id = fields.Many2one('ng_church.service', 'Service')
     church_id = fields.Many2one('res.company', string='Church')
-    partner_id = fields.Many2one('res.partner', string='Partner', store=True, readonly=True)
+    partner_id = fields.Many2one(
+        'res.partner', string='Partner', store=True, readonly=True)
 
 
 class Company(models.Model):
@@ -55,26 +59,40 @@ class Company(models.Model):
 
     name = fields.Char(string='Church Name', required=True)
     rml_header1 = fields.Char(string='Church Tagline ')
-    pastor_id = fields.One2many('ng_church.pastor', 'church_id', string='Pastor(s) in Charge')
-    program_ids = fields.One2many('ng_church.program', 'parish_id', string='Church Services')
-    member_ids = fields.One2many('res.partner', 'parish_id', string='Church Member')
-    tithe_ids = fields.One2many('ng_church.tithe', 'church_id', string='Church Tithes')
+    pastor_id = fields.One2many(
+        'ng_church.pastor', 'church_id', string='Pastor(s) in Charge')
+    program_ids = fields.One2many(
+        'ng_church.program', 'parish_id', string='Church Services')
+    member_ids = fields.One2many(
+        'res.partner', 'parish_id', string='Church Member')
+    tithe_ids = fields.One2many(
+        'ng_church.tithe', 'church_id', string='Church Tithes')
 
-    tithe_journal = fields.Many2one('account.journal', string="Journal", domain=journal)
-    tithe_account = fields.Many2one('account.account', string="Account", domain=account)
-    donation_journal = fields.Many2one('account.journal', string="Journal", domain=journal)
-    donation_account = fields.Many2one('account.account', string="Account", domain=account)
-    offering_journal = fields.Many2one('account.journal', string="Journal", domain=journal)
-    offering_account = fields.Many2one('account.account', string="Account", domain=account)
-    pledge_journal = fields.Many2one('account.journal', string="Journal", domain=journal)
-    pledge_account = fields.Many2one('account.account', string="Account", domain=account)
-    transit_account = fields.Many2one(
-        'account.account', string='Account', required=True, domain=[('user_type_id', '=', 5)])
+    tithe_journal = fields.Many2one(
+        'account.journal', string="Journal", domain=journal)
+    tithe_account = fields.Many2one(
+        'account.account', string="Account", domain=account)
+    donation_journal = fields.Many2one(
+        'account.journal', string="Journal", domain=journal)
+    donation_account = fields.Many2one(
+        'account.account', string="Account", domain=account)
+    offering_journal = fields.Many2one(
+        'account.journal', string="Journal", domain=journal)
+    offering_account = fields.Many2one(
+        'account.account', string="Account", domain=account)
+    pledge_journal = fields.Many2one(
+        'account.journal', string="Journal", domain=journal)
+    pledge_account = fields.Many2one(
+        'account.account', string="Account", domain=account)
+    transit_account = fields.Many2one('account.account', string='Account',
+                                      required=True,
+                                      domain=[('user_type_id', '=', 5)])
 
     @api.constrains('email')
     def _check_valid_email(self):
         if self.email:
-            result = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+            result = re.compile(
+                r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
             if result.match(self.email) is None:
                 raise ValidationError('Please enter a valid email address')
 
@@ -101,24 +119,31 @@ class ResPartner(models.Model):
     spirit_filled_date = fields.Date('Spirit Filled Date')
     is_church_member = fields.Boolean('Church Member')
     is_preacher = fields.Boolean('Is Preacher Member?')
-    church_section_id = fields.Many2one('church.sections', string="Church Section")
-    membership_category_id = fields.Many2one('membership.category', string="Members Category")
-    membership_type_id = fields.Many2one('membership.type', string="Membership Type")
-    membership_status_id = fields.Many2one('membership.status', string="Membership Status")
+    church_section_id = fields.Many2one(
+        'church.sections', string="Church Section")
+    membership_category_id = fields.Many2one(
+        'membership.category', string="Members Category")
+    membership_type_id = fields.Many2one(
+        'membership.type', string="Membership Type")
+    membership_status_id = fields.Many2one(
+        'membership.status', string="Membership Status")
     fellowship_id = fields.Many2one('fellowship', string="Fellowship")
     lead_pastor_id = fields.Many2one('res.partner', "Leader Pastor")
     ref_ids = fields.One2many('church.refs', 'emp_id', string='References')
-    gua_ids = fields.One2many('church.guarantor', 'emp_id', string='Guarantors')
-    kin_ids = fields.One2many('church.nextofkin', 'emp_id', string='Next of Kin')
+    gua_ids = fields.One2many(
+        'church.guarantor', 'emp_id', string='Guarantors')
+    kin_ids = fields.One2many(
+        'church.nextofkin', 'emp_id', string='Next of Kin')
     dob = fields.Date('Date of Birth')
     joined_date = fields.Date(string='Joined Date')
     parish_id = fields.Many2one('res.company', string='Parish', default=parish)
 
     _sql_constraints = [
-        ('member_id_uniq', 'unique(member_uniq_id)', 'Member ID must be unique!'),
+        ('member_id_uniq', 'unique(member_uniq_id)',
+            'Member ID must be unique!'),
     ]
 
     @api.onchange('is_pastor')
     def _onchange_is_pastor(self):
-        if self.is_pastor == True:
+        if self.is_pastor:
             self.is_church_member = True

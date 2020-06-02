@@ -10,6 +10,7 @@ class FollowupLog(models.TransientModel):
         return self._context['active_ids'][0]
 
     _name = 'ng_church.followup_log'
+    _description = "NG Church Followup Log"
 
     activity_id = fields.Many2one('crm.activity', string='Next Activity',
                                   default=_default_activity_id)
@@ -17,9 +18,9 @@ class FollowupLog(models.TransientModel):
     note = fields.Html('Note')
 
     def log_and_schedule(self):
-        """log and schedule next activity for both."""
+        """Log and schedule next activity for both."""
         print ('"""log and schedule next activity for both."""')
 
     def log(self):
-        """log next activity for both."""
-        print(' """log next activity for both."""')
+        """Log next activity for both."""
+        print (' """log next activity for both."""')

@@ -10,6 +10,7 @@ class ChurchOfferingLineAbstractModel(models.AbstractModel):
     """Church OfferingLine Abstract Model."""
 
     _name = 'report.ng_church.church_offering_report'
+    _description = "Report NG Church Church Offering Report"
 
     def offering_caculator(self, model):
         """offering_caculator."""
@@ -34,10 +35,12 @@ class OfferingReportWizard(models.Model):
     """."""
 
     _name = 'ng_church.offering_wizard'
+    _description = "NG Church Offering Wizard"
 
     date_from = fields.Date(string='Date from')
     date_to = fields.Date(
-        string='Date to', default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
+        string='Date to',
+        default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
     offering = fields.Many2one('ng_church.program', required=True)
 
     def _report_range(self, model, after, before):
@@ -57,11 +60,15 @@ class OfferingReportWizard(models.Model):
         """."""
         query = self.offering
         church = ('church_id', '=', self.env.user.company_id.id)
-        services = self.env['ng_church.offering'].search([('service_id', '=', query.id), church])
+        services = self.env['ng_church.offering'].search([
+            ('service_id', '=', query.id), church])
         offering_line = self.env['ng_church.offering_line']
         for offering in services:
-            offering_line += offering_line.search([('offering_id', '=', offering.id), church])
-        offerings = self._report_range(offering_line, self.date_from, self.date_to)
+            offering_line += offering_line.search(
+                [('offering_id', '=', offering.id), church])
+        offerings = self._report_range(
+            offering_line, self.date_from, self.date_to)
         if len(offerings) > 0:
-            return self.env['report'].get_action(offerings, 'ng_church.church_offering_report')
+            return self.env['report'].\
+                get_action(offerings, 'ng_church.church_offering_report')
         raise MissingError('Record not found')

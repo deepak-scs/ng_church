@@ -1,37 +1,48 @@
 # -*- coding:utf-8 -*-
 """Church Collections consists of all church weekly or monthly collections."""
-import datetime
 from odoo.addons.ng_church.models.helper import parish
 
 from odoo import api, fields, models
-from odoo.exceptions import AccessError, MissingError, UserError, ValidationError
+from odoo.exceptions import AccessError,\
+    MissingError, UserError, ValidationError
 
 
 class Collection(models.Model):
-    """ng_church.collection."""
+    """Ng Church Collection Model."""
 
     _name = 'ng_church.collection'
+    _description = "NG Church Collection"
 
-    name = fields.Char()
+    name = fields.Char(string="Name")
 
 
 class Donation(models.Model):
-    """Church Donation is cetain sum of money that is given to a church as charity."""
+    """Donation Model.
+
+    Church Donation is cetain sum of money that is given
+    to a church as charity.
+    """
 
     _name = 'ng_church.donation'
+    _description = "NG Church Donation"
 
     name = fields.Many2one('project.project', 'Project', required=True)
     start_date = fields.Date(related='name.x_date', string='Start Date')
     notes = fields.Text(string='Note')
     church_id = fields.Many2one('res.company', default=parish)
-    donation_line_ids = fields.One2many(
-        'ng_church.donation_line', 'donation_id', srting='Donations')
+    donation_line_ids = fields.One2many('ng_church.donation_line',
+                                        'donation_id', srting='Donations')
 
 
 class DonationLine(models.Model):
-    """Church Donation is cetain sum of money that is given to a church as charity."""
+    """Donation Line Model.
+
+    Church Donation is cetain sum of money that is
+    given to a church as charity.
+    """
 
     _name = 'ng_church.donation_line'
+    _description = "NG Church Donation Line"
 
     donation_id = fields.Many2one('ng_church.donation', string='Donation')
     name = fields.Char(string='Date')
@@ -44,39 +55,45 @@ class DonationLine(models.Model):
 
     @api.constrains('amount')
     def _check_valid_amount(self):
-        if self.amount < 1:
-            raise ValidationError(
-                'Please enter a valid amount of money {} can\'t be deposited'.format(self.amount))
+        for donation_l in self:
+            if donation_l.amount < 1:
+                raise ValidationError('Please enter a valid amount of'
+                                      ' money {} can\'t be'
+                                      ' deposited'.format(self.amount))
 
     @api.onchange('date')
     def _onchange_name(self):
-        if self.date:            
+        if self.date:
             self.name = self.date.strftime("%B %d, %Y")
-           
 
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
-        company = self.env.user.company_id
-        payload = {
-            'company_id': company.id,
+        company = self.env.user and self.env.user.company_id or False
+        voucher = voucher.create({
+            'company_id': company and company.id or False,
             'partner_id': self.env.user.partner_id.id,
             'pay_now': 'pay_now',
-            'account_id': company.transit_account.id,
-            'journal_id': company.donation_journal.id,
+            'account_id': company and company.transit_account and
+            company.transit_account.id or False,
+            'journal_id': company and company.donation_journal and
+            company.donation_journal.id or False,
             'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
             'voucher_type': 'sale'
 
-        }
-        voucher = voucher.create(payload)
+        })
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
         payload = {
             'name': self.notes,
-            'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
+            # Quantity is intentionally hard coded to be int: 1.
+            'quantity': 1,
             'price_unit': self.amount,
-            'voucher_id': voucher_id.id,
-            'account_id': self.env.user.company_id.donation_account.id  # credit account
+            'voucher_id': voucher_id and voucher_id.id or False,
+            # credit account
+            'account_id': self.env.user.company_id and \
+            self.env.user.company_id.donation_account and \
+            self.env.user.company_id.donation_account.id or False
         }
         return voucher_line.create(payload)
 
@@ -88,57 +105,76 @@ class DonationLine(models.Model):
 
 
 class Tithe(models.Model):
-    """One tenth of produce or earnings, formerly taken as a tax for the support of the church and clergy."""
+    """Tithe Model.
+
+    One tenth of produce or earnings, formerly taken as a tax for
+    the support of the church and clergy.
+    """
 
     _name = 'ng_church.tithe'
+    _description = "NG Church Tithe"
 
     def _compute_default_collection(self):
-        category = self.env['ng_church.collection'].name_search('Tithes', limit=1)
+        category = self.env['ng_church.collection'].name_search(
+            'Tithes', limit=1)
         if category:
-            # Remove the item at the given position in the list, and unpack the tupple
+            # Remove the item at the given position in the list,
+            # and unpack the tupple
             category_id, category_name = category.pop(0)
             return category_id
         else:
             self.env['ng_church.collection'].create({'name': 'Tithes'})
-            category = self.env['ng_church.collection'].name_search('Tithes', limit=1)
+            category = self.env['ng_church.collection'].name_search(
+                'Tithes', limit=1)
             category_id, category_name = category.pop(0)
             return category_id
 
-    name = fields.Many2one(
-        'ng_church.collection', string='Collection', default=_compute_default_collection)
-    section_id = fields.Many2one('church.sections', string="Church Section", required=True)
+    name = fields.Many2one('ng_church.collection', string='Collection',
+                           default=_compute_default_collection)
+    section_id = fields.Many2one(
+        'church.sections', string="Church Section", required=True)
     service_id = fields.Many2one('ng_church.program', string="Church Service")
     pastor_id = fields.Many2one('ng_church.pastor', string='Minister\'s Name')
-    church_id = fields.Many2one('res.company', string='Church\'s Tithe', default=parish)
+    church_id = fields.Many2one(
+        'res.company', string='Church\'s Tithe', default=parish)
     is_pastor_tithe = fields.Boolean(string='Minister\'s Tithe')
-    tithe_line_ids = fields.One2many('ng_church.tithe_lines', 'tithe_id', string='Tithes')
-    
+    tithe_line_ids = fields.One2many(
+        'ng_church.tithe_lines', 'tithe_id', string='Tithes')
+
+
 class TitheLine(models.Model):
-    """One tenth of produce or earnings, formerly taken as a tax for the support of the church and clergy."""
+    """TitheLine Model.
+
+    One tenth of produce or earnings,
+    formerly taken as a tax for the support of the church and clergy.
+    """
 
     _name = 'ng_church.tithe_lines'
+    _description = "NG Church Tithe Lines"
 
     date = fields.Date(string='Date', required=True)
     name = fields.Char(string='Date')
     tithe_type = fields.Selection(
-        selection=[('members', 'Members'), ('pastor', 'Pastor'), ('minister', 'Minister')], string='Category', default='members')
+        selection=[('members', 'Members'), ('pastor', 'Pastor'),
+                   ('minister', 'Minister')], string='Category',
+        default='members')
     tither = fields.Many2one('res.partner', string='Name')
     is_invoiced = fields.Boolean(string='Invoiced', readonly=True)
-
     tithe_id = fields.Many2one('ng_church.tithe', string='Tithe')
     amount = fields.Float('Amount', required=True)
     church_id = fields.Many2one('res.company', default=parish)
 
     @api.constrains('amount')
     def _check_valid_amount(self):
-        if self.amount < 1:
-            raise ValidationError(
-                'Please enter a valid amount of money {} can\'t be deposited'.format(self.amount))
+        for tithe_l in self:
+            if tithe_l.amount < 1:
+                raise ValidationError('Please enter a valid amount of'
+                                      ' money {} can\'t be'
+                                      ' deposited'.format(tithe_l.amount))
 
     @api.onchange('date')
     def _onchange_name(self):
         if self.date:
-           
             self.name = self.date.strftime("%B %d, %Y")
 
     def _prepare_account_voucher(self):
@@ -160,10 +196,12 @@ class TitheLine(models.Model):
     def _prepare_account_voucher_line(self, voucher_id):
         payload = {
             'name': 'Tithe',
-            'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
+            # Quantity is intentionally hard coded to be int: 1.
+            'quantity': 1,
             'price_unit': self.amount,
             'voucher_id': voucher_id.id,
-            'account_id': self.env.user.company_id.tithe_account.id  # credit account
+            # credit account
+            'account_id': self.env.user.company_id.tithe_account.id
         }
         return voucher_line.create(payload)
 
@@ -178,32 +216,38 @@ class Offering(models.Model):
     """Church Offering Model."""
 
     _name = 'ng_church.offering'
+    _description = "NG Church Offering"
 
     def _compute_default_collection(self):
-        category = self.env['ng_church.collection'].name_search('Offering', limit=1)
+        category = self.env['ng_church.collection'].name_search(
+            'Offering', limit=1)
         if category:
-            # Remove the item at the given position in the list, and unpack the tupple
+            # Remove the item at the given position in the list,
+            # and unpack the tupple
             category_id, category_name = category.pop(0)
             return category_id
         else:
             self.env['ng_church.collection'].create({'name': 'Offering'})
-            category = self.env['ng_church.collection'].name_search('Offering', limit=1)
+            category = self.env['ng_church.collection'].name_search(
+                'Offering', limit=1)
             category_id, category_name = category.pop(0)
             return category_id
 
-    name = fields.Many2one(
-        'ng_church.collection', string='Collection Source', default=_compute_default_collection)
-    section_id = fields.Many2one('church.sections', string="Church Section", required=True)
+    name = fields.Many2one('ng_church.collection', string='Collection Source',
+                           default=_compute_default_collection)
+    section_id = fields.Many2one('church.sections', string="Church Section",
+                                 required=True)
     service_id = fields.Many2one('ng_church.program', string="Church Service")
     church_id = fields.Many2one('res.company', default=parish)
-    offering_line_ids = fields.One2many(
-        'ng_church.offering_line', 'offering_id', string='Offering')
+    offering_line_ids = fields.One2many('ng_church.offering_line',
+                                        'offering_id', string='Offering')
 
 
 class OfferingLine(models.Model):
     """Church Offering lines model."""
 
     _name = 'ng_church.offering_line'
+    _description = "NG Church Offering Line"
 
     date = fields.Date(string='Date', required=True)
     name = fields.Char(string='Date')
@@ -214,14 +258,15 @@ class OfferingLine(models.Model):
 
     @api.constrains('amount')
     def _check_valid_amount(self):
-        if self.amount < 1:
-            raise ValidationError(
-                'Please enter a valid amount of money {} can\'t be deposited'.format(self.amount))
+        for offering_l in self:
+            if offering_l.amount < 1:
+                raise ValidationError('Please enter a valid amount of'
+                                      ' money {} can\'t be'
+                                      ' deposited'.format(offering_l.amount))
 
     @api.onchange('date')
     def _onchange_name(self):
         if self.date:
-            
             self.name = self.date.strftime("%B %d, %Y")
 
     def _prepare_account_voucher(self):
@@ -242,17 +287,23 @@ class OfferingLine(models.Model):
     def _prepare_account_voucher_line(self, voucher_id):
         payload = {
             'name': 'Offering',
-            'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
+            # Quantity is intentionally hard coded to be int: 1.
+            'quantity': 1,
             'price_unit': self.amount,
-            'voucher_id': voucher_id.id,
-            'account_id': self.env.user.company_id.offering_account.id  # credit account
+            'voucher_id': voucher_id and voucher_id.id or False,
+            # credit account
+            'account_id': self.env.user and \
+            self.env.user.company_id and \
+            self.env.user.company_id.offering_account and \
+            self.env.user.company_id.offering_account.id or False
         }
         return voucher_line.create(payload)
 
     def generate_offering_voucher(self):
         """User Interface button call this method."""
         if self._uid != self.write_uid.id:
-            raise AccessError('You don\'t have the permission to Draft this invoice')
+            raise AccessError(
+                'You don\'t have the permission to Draft this invoice')
             return False
         voucher_id = self._prepare_account_voucher()
         voucher_line_id = self._prepare_account_voucher_line(voucher_id)
@@ -264,54 +315,65 @@ class Pledge(models.Model):
     """."""
 
     _name = 'ng_church.pledge'
+    _description = "NG Church Pledge"
 
     name = fields.Many2one('project.project', string='Project', required=True)
     date = fields.Date(related='name.x_date', string='Date')
     church_id = fields.Many2one('res.company', default=parish)
-    pledge_line_ids = fields.One2many('ng_church.pledge_line', 'pledge_id', string='Pledges')
+    pledge_line_ids = fields.One2many('ng_church.pledge_line', 'pledge_id',
+                                      string='Pledges')
 
 
 class PledgeLine(models.Model):
     """."""
 
     _name = 'ng_church.pledge_line'
+    _description = "NG Church Pledge Line"
 
     name = fields.Char(string='Name', related='pledge_id.name.name')
     date = fields.Date(string='Pledged Date', required=True)
     pledger = fields.Many2one('ng_church.associate', string='Pledger')
     amount = fields.Float(string='Pledged Amount')
-    balance = fields.Float(string='Balance', compute='_compute_balance', store=True)
-    paid = fields.Float(string='Paid', compute='_compute_total_paid', store=True)
+    balance = fields.Float(string='Balance',
+                           compute='_compute_balance', store=True)
+    paid = fields.Float(string='Paid', compute='_compute_total_paid',
+                        store=True)
     is_invoiced = fields.Char(string='Invoiced', default=False)
-    state = fields.Selection(selection=[(
-        'active', 'Active'), ('fulfilled', 'Fulfilled')], default='active')
+    state = fields.Selection(selection=[('active', 'Active'),
+                                        ('fulfilled', 'Fulfilled')],
+                             default='active')
     pledge_id = fields.Many2one('ng_church.pledge', string='Pledge')
-    pledge_line_payment_ids = fields.One2many(
-        'ng_church.pledge_line_payment', 'pledge_line_id', string='Pledge Payment')
+    pledge_line_payment_ids = fields.One2many('ng_church.pledge_line_payment',
+                                              'pledge_line_id',
+                                              string='Pledge Payment')
 
     @api.constrains('amount')
     def _check_valid_amount(self):
-        if self.amount < 1:
-            raise ValidationError(
-                'Please enter a valid amount of money {} can\'t be pledged'.format(self.amount))
+        for pledge_l in self:
+            if pledge_l.amount < 1:
+                raise ValidationError('Please enter a valid amount of'
+                                      ' money {} can\'t be'
+                                      ' pledged'.format(pledge_l.amount))
 
     @api.depends('pledge_line_payment_ids')
     def _compute_total_paid(self):
-        total = 0
-        for pledge_line_id in self.pledge_line_payment_ids:
-            for pledge in pledge_line_id:
-                total += pledge.amount
-        self.paid = total
+        for pledge_l in self:
+            total = 0
+            for pledge_line_id in self.pledge_line_payment_ids:
+                for pledge in pledge_line_id:
+                    total += pledge.amount
+            pledge_l.paid = total
 
     @api.depends('paid')
     def _compute_balance(self):
-        if self.paid >= self.amount:
-            self.write({'state': 'fulfilled'})
-        else:
-            self.write({'state': 'active'})
-        self.balance = 0.0 if (self.amount - self.paid) < 1 else (self.amount - self.paid)
+        for pledge_l in self:
+            if pledge_l.paid >= pledge_l.amount:
+                pledge_l.write({'state': 'fulfilled'})
+            else:
+                pledge_l.write({'state': 'active'})
+            pledge_l.balance = 0.0 if (pledge_l.amount - pledge_l.paid) < 1 \
+                else (pledge_l.amount - pledge_l.paid)
 
-    
     def send_by_email(self):
         """Send report via email."""
         ir_model_data = self.env['ir.model.data']
@@ -351,10 +413,10 @@ class PledgeLine(models.Model):
             raise MissingError('Set church email address')
         return {res_id[0]: self.env.user.company_id.email}
 
-    
     def print_report(self):
         """Direct Report printing."""
-        return self.env['report'].get_action(self, 'ng_church.print_pledge_report')
+        return self.env['report'].get_action(self,
+                                             'ng_church.print_pledge_report')
 
     def _prepare_account_voucher(self):
         """Generate Account Invoice."""
@@ -368,14 +430,14 @@ class PledgeLine(models.Model):
             'voucher_type': 'sale'
 
         })
-
         return voucher
 
     def _prepare_account_voucher_line(self, voucher_id):
         company = self.env.user.company_id
         payload = {
             'name': voucher_id.name,
-            'quantity': 1,  # Quantity is intentionally hard coded to be int: 1.
+            # Quantity is intentionally hard coded to be int: 1.
+            'quantity': 1,
             'price_unit': self.paid,
             'voucher_id': voucher_id.id,
             'account_id': company.pledge_account.id
@@ -384,7 +446,7 @@ class PledgeLine(models.Model):
 
     def generate_pledge_voucher(self):
         """User Interface button call this method."""
-        if self.is_invoiced == False:
+        if not self.is_invoiced:
             voucher_id = self._prepare_account_voucher()
             voucher_line_id = self._prepare_account_voucher_line(voucher_id)
             self.is_invoiced = True
@@ -393,15 +455,19 @@ class PledgeLine(models.Model):
 
 
 class PledgeLinePayment(models.Model):
-    """."""
+    """Ng Church Pledge Line Payment."""
 
     _name = 'ng_church.pledge_line_payment'
+    _description = "NG Church Pledge Line Payment"
+
     date = fields.Date(string='Date', required=True)
     amount = fields.Float(string='Amount')
     pledge_line_id = fields.Many2one('ng_church.pledge_line')
 
     @api.constrains('amount')
     def _check_valid_amount(self):
-        if self.amount < 1:
-            raise ValidationError(
-                'Please enter a valid amount of money {} can\'t be deposited'.format(self.amount))
+        for pledge_l in self:
+            if pledge_l.amount < 1:
+                raise ValidationError('Please enter a valid amount of'
+                                      ' money {} can\'t be'
+                                      ' deposited'.format(pledge_l.amount))
