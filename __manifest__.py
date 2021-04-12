@@ -2,7 +2,7 @@
 {
     'name': 'Church Management',
     'version': '13.0.1.0.1',
-    'author': 'Serpent Consulting Services Pvt. Ltd.',
+    'author': 'Matt \'O Bell, Serpent Consulting Services Pvt. Ltd.',
     'website': 'https://www.serpentcs.com',
     'sequence': 1,
     'summary': """
