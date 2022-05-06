@@ -7,7 +7,7 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-                <xpath expr="//sheet/div/div/div" position="inside">
+                <xpath expr="//sheet" position="inside">
                     <field name="x_date"/>
                 </xpath>
 

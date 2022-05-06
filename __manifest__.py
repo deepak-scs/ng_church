@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Church Management',
-    'version': '13.0.1.0.1',
+    'version': '15.0.1.0.0',
     'author': 'Matt \'O Bell, Serpent Consulting Services Pvt. Ltd.',
     'website': 'https://www.serpentcs.com',
     'sequence': 1,
@@ -12,10 +12,10 @@ Church Management
 =================
         """,
     'data': [
-            'views/actions.xml',
-            'views/menus.xml',
             'security/ng_church_security.xml',
             'security/ir.model.access.csv',
+            'views/actions.xml',
+            'views/menus.xml',
             'data/ng_church_demo_data.xml',
             'views/membership_view.xml',
             'views/followup.xml',
