@@ -26,7 +26,7 @@
             <field name="name">ng_church_pledge_lines_tree_view</field>
             <field name="model">ng_church.pledge_line_payment</field>
             <field name="arch" type="xml">
-                <tree default_order="desc" editable="bottom">
+                <tree default_order="date desc" editable="bottom">
                     <field name="date"/>
                     <field name="amount" widget="monetary"/>
                 </tree>
@@ -38,7 +38,7 @@
             <field name="name">ng_church_pledge_lines_tree_view</field>
             <field name="model">ng_church.pledge_line</field>
             <field name="arch" type="xml">
-                <tree default_order="desc">
+                <tree default_order="amount desc">
                     <field name="date"/>
                     <field name="pledger"/>
                     <field name="state"/>
@@ -93,6 +93,7 @@
                      <group>
                          <group>
                              <field name="name"/>
+                             
                          </group>
                          <group>
                              <field name="date" readonly="1"/>
@@ -101,7 +102,7 @@
                      <notebook>
                          <page string="Pledges">
                              <field name="pledge_line_ids">
-                                 <tree default_order="desc">
+                                 <tree default_order="date desc">
                                      <field name="date"/>
                                      <field name="pledger"/>
                                      <field name="state"/>
@@ -250,6 +251,7 @@
 
                         <group>
                             <field name="date"/>
+                            <field name="offeror_id"/>
                             <field name="name" invisible="1"/>
                             <field name="is_invoiced" invisible="1"/>
 
@@ -268,7 +270,7 @@
            <field name="name">ng_church_offering_lines_tree_view</field>
            <field name="model">ng_church.offering_line</field>
            <field name="arch" type="xml">
-               <tree default_order="desc">
+               <tree default_order="date desc">
                    <field name="name"/>
                    <field name="amount"/>
                </tree>
@@ -395,7 +397,7 @@
             <field name='model'>ng_church.donation_line</field>
             <field name='type'>tree</field>
             <field name='arch' type='xml'>
-                <tree default_order="desc">
+                <tree default_order="date desc">
                     <field name="name"/>
                     <field name="donor_id"/>
                     <field name='amount'/>
