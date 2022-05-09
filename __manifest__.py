@@ -52,4 +52,5 @@ Church Management
     'category': 'Human Resources',
     'application': True,
     'installable': True,
+    'license': 'LGPL-3',
 }

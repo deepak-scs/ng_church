@@ -24,17 +24,16 @@ class Pastor(models.Model):
     ]
     minister_position = [('minister', 'Minister')]
     minister = [('minister', 'Minister'), ('pastor', 'Pastor')]
-    type_of_minister = fields.Selection(selection=minister, required=True,
-                                        default='minister')
+    type_of_minister = fields.Selection(
+        selection=minister, required=True, default='minister')
     name = fields.Char(string='First Name')
     lastname = fields.Char(string='Last Name')
     users_id = fields.Many2one('res.users', string='User\'s Name')
-    pastor_hierarchy = fields.Selection(selection=pastor_harachies,
-                                        string='Position')
+    pastor_hierarchy = fields.Selection(
+        selection=pastor_harachies, string='Position')
     lead_pastor = fields.Boolean(string='Lead Pastor')
-    minister_hierarchy = fields.Selection(selection=minister_position,
-                                          string='Position',
-                                          default='minister')
+    minister_hierarchy = fields.Selection(
+        selection=minister_position,string='Position', default='minister')
     home_address = fields.Char(string='Address')
     personal_email = fields.Char(string='Email', required=True)
     personal_phone = fields.Char(string='Phone')

@@ -20,24 +20,24 @@ class MemberFollowUp(models.Model):
 
     _name = 'ng_church.followup_member'
     _description = "NG Church Followup Member"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Many2one('res.partner', string='Member')
     email = fields.Char(related='name.email', string='Email')
     phone = fields.Char(related='name.phone', string='Phone')
     next_activity_id = fields.Many2one('mail.activity.type', string='Activity')
-    stage_id = fields.Many2one('ng_church.member_stage', string='Stage',
-                               index=True, track_visibility='onchange',
-                               group_expand='_read_group_stage_ids',
-                               default=_default_stage)
+    stage_id = fields.Many2one(
+        'ng_church.member_stage', string='Stage', index=True, tracking=True,
+        group_expand='_read_group_stage_ids', default=_default_stage)
     priority = fields.Selection(AVAILABLE_PRIORITIES, string='Priority',
-                                default='0')
+        default='0')
     date_action = fields.Date('Next Activity Date', index=True)
     color = fields.Integer('Color Index', default=0)
-    kanban_state = fields.Selection(
-        [('grey', 'No next activity planned'),
-         ('red', 'Next activity late'),
-         ('green', 'Next activity is planned')],
-        string='Activity State', compute='_compute_kanban_state')
+    kanban_state = fields.Selection([
+        ('grey', 'No next activity planned'),
+        ('red', 'Next activity late'),
+        ('green', 'Next activity is planned')
+    ],string='Activity State', compute='_compute_kanban_state')
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
@@ -71,15 +71,16 @@ class FirstTimerFollowUp(models.Model):
 
     _name = 'ng_church.followup_first_timer'
     _description = "NG Church Followup First Timer"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Many2one('res.partner', string='First Timer')
     email = fields.Char(related='name.email', string='Email')
     phone = fields.Char(related='name.phone', string='Phone')
     next_activity_id = fields.Many2one('mail.activity.type', string='Activity')
-    stage_id = fields.Many2one('ng_church.first_timer_stage', string='Stage',
-                               index=True, track_visibility='onchange',
-                               group_expand='_read_group_stage_ids',
-                               default=_default_stage)
+    stage_id = fields.Many2one(
+        'ng_church.first_timer_stage', string='Stage', index=True,
+        tracking=True, group_expand='_read_group_stage_ids',
+        default=_default_stage)
     priority = fields.Selection(AVAILABLE_PRIORITIES, string='Priority',
                                 default='0')
     date_action = fields.Date('Next Activity Date', index=True)
