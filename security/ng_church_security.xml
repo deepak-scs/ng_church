@@ -77,8 +77,9 @@
 
         <record id="ng_church_attendance" model="ir.rule">
             <field name="name">Church Attendance multi-company</field>
-            <field name="model_id" ref="model_res_partner"/>
+            <field name="model_id" ref="base.model_res_partner"/>
             <field eval="True" name="global"/>
+            <field name="groups" eval="[Command.set([ref('base.group_user')])]"/>
             <field name="domain_force">['|',('parish_id','=',False),('parish_id','child_of',[user.company_id.id])]</field>
         </record>
 

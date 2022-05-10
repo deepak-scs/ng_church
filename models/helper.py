@@ -15,10 +15,17 @@ def default_date(self):
 
 
 month_list = [
-    ('January', 'January'), ('February', 'February'), ('March', 'March'),
-    ('April', 'April'), ('May', 'May'), ('June', 'June'), ('July', 'July'),
-    ('August', 'August'), ('September', 'September'),
-    ('October', 'October'), ('November', 'November'),
+    ('January', 'January'),
+    ('February', 'February'),
+    ('March', 'March'),
+    ('April', 'April'),
+    ('May', 'May'),
+    ('June', 'June'),
+    ('July', 'July'),
+    ('August', 'August'),
+    ('September', 'September'),
+    ('October', 'October'),
+    ('November', 'November'),
     ('December', 'December')
 ]
 
@@ -28,7 +35,8 @@ def program_default_date(self, date=datetime.date.today()):
     print(self.name)
     if(str(self.name) != 'ng_church.program()'):
         if self.name.days is False:
-            raise MissingError('Service day is not set on the selected Church Program')
+            raise MissingError(
+                'Service day is not set on the selected Church Program')
         print("OK")
         day = self.name.days
         isoweekday = {
@@ -51,11 +59,17 @@ def program_default_date(self, date=datetime.date.today()):
 def program_default_date_tithe(self, date=datetime.date.today()):
     """ISO weekday."""
     if self.service_id.days is False:
-        raise MissingError('Service day is not set on the selected Church Program')
+        raise MissingError(
+            'Service day is not set on the selected Church Program')
     day = self.service_id.days
     isoweekday = {
-        'monday': 1, 'tuesday': 2, 'wednesday': 3,
-        'thursday': 4, 'friday': 5, 'saturday': 6, 'sunday': 7
+        'monday': 1,
+        'tuesday': 2,
+        'wednesday': 3,
+        'thursday': 4,
+        'friday': 5,
+        'saturday': 6,
+        'sunday': 7
     }
     program_day = int(isoweekday[day.lower()])  # program day of the week
     today = int(datetime.date.isoweekday(date))  # current day of the week

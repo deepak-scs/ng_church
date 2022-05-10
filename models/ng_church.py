@@ -56,8 +56,13 @@ class Fellowship(models.Model):
     _description = "Fellowship"
 
     name = fields.Char('Name', required=True)
-    marital_status = fields.Selection(
-        [('single', 'Single'), ('married', 'Married'), ('widower', 'Widower'),
-         ('divorced', 'Divorced')], string="Marital Status")
-    gender = fields.Selection([('male', 'Male'), ('female', 'Female')],
-                              string='Gender')
+    marital_status = fields.Selection([
+        ('single', 'Single'),
+        ('married', 'Married'),
+        ('widower', 'Widower'),
+        ('divorced', 'Divorced')
+    ], string="Marital Status")
+    gender = fields.Selection([
+        ('male', 'Male'),
+        ('female', 'Female')
+    ], string='Gender')

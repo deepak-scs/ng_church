@@ -20,10 +20,13 @@ class Lodgement(models.Model):
     amount = fields.Float(string='Amount', required=True)
     description = fields.Text(string='Note', required=True)
     church_id = fields.Many2one('res.company', default=parish)
-    journal_id = fields.Many2one('account.journal', string='Journal',
-                                 domain=[('type', '=', 'bank')], required=True)
-    state = fields.Selection([('draft', 'Draft'), ('posted', 'Posted')],
-                             copy=False, default='draft')
+    journal_id = fields.Many2one(
+        'account.journal', string='Journal',
+        domain=[('type', '=', 'bank')], required=True)
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('posted', 'Posted')
+    ], copy=False, default='draft')
 
     @api.constrains('amount')
     def _check_valid_amount(self):
@@ -63,8 +66,6 @@ class Lodgement(models.Model):
                 not self.journal_id.default_debit_account_id:
             raise MissingError('{} default debit and credit'
                                ' are not set.'.format(self.journal_id.name))
-
-
         payload = {
             'name': self.description,
             'account_id': self.journal_id.default_debit_account_id.id,

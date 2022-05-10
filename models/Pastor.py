@@ -13,17 +13,20 @@ class Pastor(models.Model):
 
     pastor_harachies = [
         ('Assistant Pastor in Charge of Parish',
-         'Assistant Pastor in Charge of Parish'),
+            'Assistant Pastor in Charge of Parish'),
         ('Pastors in Charge of Parish', 'Pastors in Charge of Parish'),
         ('Pastors in Charge of Area', 'Pastors in Charge of Area'),
         ('Pastors in Charge of Zone', 'Pastors in Charge of Zone'),
         ('Assistant Pastors in Charge of Province',
-         'Assistant Pastors in Charge of Province'),
+            'Assistant Pastors in Charge of Province'),
         ('Pastors in Charge of Province', 'Pastors in Charge of Province'),
         ('Pastors in Charge of Region', 'Pastors in Charge of Region')
     ]
     minister_position = [('minister', 'Minister')]
-    minister = [('minister', 'Minister'), ('pastor', 'Pastor')]
+    minister = [
+        ('minister', 'Minister'),
+        ('pastor', 'Pastor')
+    ]
     type_of_minister = fields.Selection(
         selection=minister, required=True, default='minister')
     name = fields.Char(string='First Name')
@@ -33,7 +36,7 @@ class Pastor(models.Model):
         selection=pastor_harachies, string='Position')
     lead_pastor = fields.Boolean(string='Lead Pastor')
     minister_hierarchy = fields.Selection(
-        selection=minister_position,string='Position', default='minister')
+        selection=minister_position, string='Position', default='minister')
     home_address = fields.Char(string='Address')
     personal_email = fields.Char(string='Email', required=True)
     personal_phone = fields.Char(string='Phone')

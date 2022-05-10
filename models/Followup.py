@@ -29,15 +29,15 @@ class MemberFollowUp(models.Model):
     stage_id = fields.Many2one(
         'ng_church.member_stage', string='Stage', index=True, tracking=True,
         group_expand='_read_group_stage_ids', default=_default_stage)
-    priority = fields.Selection(AVAILABLE_PRIORITIES, string='Priority',
-        default='0')
+    priority = fields.Selection(
+        AVAILABLE_PRIORITIES, string='Priority',default='0')
     date_action = fields.Date('Next Activity Date', index=True)
     color = fields.Integer('Color Index', default=0)
     kanban_state = fields.Selection([
         ('grey', 'No next activity planned'),
         ('red', 'Next activity late'),
         ('green', 'Next activity is planned')
-    ],string='Activity State', compute='_compute_kanban_state')
+    ], string='Activity State', compute='_compute_kanban_state')
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
@@ -85,11 +85,11 @@ class FirstTimerFollowUp(models.Model):
                                 default='0')
     date_action = fields.Date('Next Activity Date', index=True)
     color = fields.Integer('Color Index', default=0)
-    kanban_state = fields.Selection(
-        [('grey', 'No next activity planned'),
-         ('red', 'Next activity late'),
-         ('green', 'Next activity is planned')],
-        string='Activity State', compute='_compute_kanban_state')
+    kanban_state = fields.Selection([
+        ('grey', 'No next activity planned'),
+        ('red', 'Next activity late'),
+        ('green', 'Next activity is planned')
+    ], string='Activity State', compute='_compute_kanban_state')
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
@@ -123,12 +123,12 @@ class FirstTimerStage(models.Model):
     _order = "sequence, name, id"
 
     name = fields.Char('Stage Name', required=True)
-    sequence = fields.Integer('Sequence', default=1,
-                              help="Used to order stages. Lower is better.")
-    fold = fields.Boolean(string='Folded in Pipeline',
-                          help='This stage is folded in the kanban'
-                          ' view when there are no records in that'
-                          ' stage to display.')
+    sequence = fields.Integer(
+        'Sequence', default=1, help="Used to order stages. Lower is better.")
+    fold = fields.Boolean(
+        string='Folded in Pipeline', help='This stage is folded in the kanban'
+        ' view when there are no records in that'
+        ' stage to display.')
 
 
 class MemberStage(models.Model):
@@ -140,9 +140,9 @@ class MemberStage(models.Model):
     _order = "sequence, name, id"
 
     name = fields.Char('Stage Name', required=True)
-    sequence = fields.Integer('Sequence', default=1,
-                              help="Used to order stages. Lower is better.")
-    fold = fields.Boolean(string='Folded in Pipeline',
-                          help='This stage is folded in the kanban'
-                          ' view when there are no records in'
-                          ' that stage to display.')
+    sequence = fields.Integer(
+        'Sequence', default=1, help="Used to order stages. Lower is better.")
+    fold = fields.Boolean(
+        string='Folded in Pipeline', help='This stage is folded in the kanban'
+        ' view when there are no records in'
+        ' that stage to display.')

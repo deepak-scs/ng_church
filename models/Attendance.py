@@ -15,18 +15,18 @@ class ProgramAttendance(models.Model):
     name = fields.Many2one('ng_church.program', string='Service')
     date = fields.Date(string='Date')
     parish_id = fields.Many2one('res.company', string='Parish', default=parish)
-    attendance_line_ids = fields.One2many('ng_church.attendance_line',
-                                          'attendance_id',
-                                          string='Program Attendance')
+    attendance_line_ids = fields.One2many(
+        'ng_church.attendance_line', 'attendance_id',
+        string='Program Attendance')
 
     @api.onchange('name')
     def _onchange_name(self):
         date = program_default_date(self)
         self.date = date
 
+
 class AttendanceLine(models.Model):
     """Ng Church Attendance Line Model."""
-
     _name = 'ng_church.attendance_line'
     _description = "NG Church Attendance Line"
 
@@ -37,10 +37,10 @@ class AttendanceLine(models.Model):
     guest = fields.Integer(string='Guest')
     total = fields.Integer(string='Total', compute='_compute_total')
     children = fields.Integer(string='Children')
-    section_id = fields.Many2one('church.sections',
-                                 string='Church Section')
-    attendance_id = fields.Many2one('ng_church.attendance',
-                                    string='Attendance')
+    section_id = fields.Many2one(
+        'church.sections', string='Church Section')
+    attendance_id = fields.Many2one(
+        'ng_church.attendance', string='Attendance')
 
     @api.onchange('date')
     def _onchange_name(self):

@@ -56,7 +56,6 @@ class Company(models.Model):
 
     account = [('user_type_id', '=', 14)]
     journal = [('type', '=', 'sale')]
-
     name = fields.Char(string='Church Name', required=True)
     rml_header1 = fields.Char(string='Church Tagline ')
     pastor_id = fields.One2many(
@@ -67,7 +66,6 @@ class Company(models.Model):
         'res.partner', 'parish_id', string='Church Member')
     tithe_ids = fields.One2many(
         'ng_church.tithe', 'church_id', string='Church Tithes')
-
     tithe_journal = fields.Many2one(
         'account.journal', string="Journal", domain=journal)
     tithe_account = fields.Many2one(
@@ -84,8 +82,9 @@ class Company(models.Model):
         'account.journal', string="Journal", domain=journal)
     pledge_account = fields.Many2one(
         'account.account', string="Account", domain=account)
-    transit_account = fields.Many2one('account.account', string='Account',
-                                      domain=[('user_type_id', '=', 5)])
+    transit_account = fields.Many2one(
+        'account.account', string='Account',
+        domain=[('user_type_id', '=', 5)])
 
     @api.constrains('email')
     def _check_valid_email(self):

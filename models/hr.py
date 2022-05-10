@@ -26,4 +26,3 @@ class hr_employee(models.Model):
     _inherit = 'hr.employee'
 
     related_member_id = fields.Many2one('res.partner', string="Related Member")
-

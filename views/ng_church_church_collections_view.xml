@@ -51,7 +51,7 @@
             <field name='arch' type='xml'>
                 <form string="Church Pledge lines">
                     <header>
-                        <button name="print_report_pledge_balance" string='Pledge Balance' type='object' class="oe_highlight"/>
+                        <button name="print_report" string='Pledge Balance' type='object' class="oe_highlight"/>
                         <button name="send_by_email" string='Send By Email' type='object' class="oe_highlight"/>
                         <field name="state" widget='statusbar'/>
                     </header>

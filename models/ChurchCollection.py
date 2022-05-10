@@ -3,8 +3,7 @@
 from odoo.addons.ng_church.models.helper import parish
 
 from odoo import api, fields, models
-from odoo.exceptions import AccessError,\
-    MissingError, UserError, ValidationError
+from odoo.exceptions import AccessError, MissingError, UserError, ValidationError
 
 
 class Collection(models.Model):
@@ -72,16 +71,17 @@ class DonationLine(models.Model):
         voucher = self.env['account.payment'].create({
             # 'company_id': company and company.id or False,
             'partner_id': self.donor_id.id,
-            'partner_type' : 'customer',
+            'partner_type': 'customer',
             # 'pay_now': 'pay_now',
             # 'account_id': company and company.transit_account and
             # company.transit_account.id or False,
-            'payment_method_id' : self.env.ref("account.account_payment_method_manual_in").id,
+            'payment_method_id': self.env.ref(
+                "account.account_payment_method_manual_in").id,
             'journal_id': company and company.donation_journal and
             company.donation_journal.id or False,
             # 'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
             'payment_type': 'inbound',
-            'amount' : self.amount
+            'amount': self.amount
 
         })
         return voucher
@@ -131,10 +131,10 @@ class Tithe(models.Model):
                 'Tithes', limit=1)
             category_id, category_name = category.pop(0)
             return category_id
-            
 
-    name = fields.Many2one('ng_church.collection', string='Collection',
-                           default=_compute_default_collection)
+    name = fields.Many2one(
+        'ng_church.collection', string='Collection',
+        default=_compute_default_collection)
     section_id = fields.Many2one(
         'church.sections', string="Church Section", required=True)
     service_id = fields.Many2one('ng_church.program', string="Church Service")
@@ -158,10 +158,11 @@ class TitheLine(models.Model):
 
     date = fields.Date(string='Date', required=True)
     name = fields.Char(string='Name')
-    tithe_type = fields.Selection(
-        selection=[('members', 'Members'), ('pastor', 'Pastor'),
-                   ('minister', 'Minister')], string='Category',
-        default='members')
+    tithe_type = fields.Selection(selection=[
+        ('members', 'Members'),
+        ('pastor', 'Pastor'),
+        ('minister', 'Minister')
+    ], string='Category', default='members')
     tither = fields.Many2one('res.partner')
     is_invoiced = fields.Boolean(string='Invoiced', readonly=True)
     tithe_id = fields.Many2one('ng_church.tithe', string='Tithe')
@@ -183,7 +184,6 @@ class TitheLine(models.Model):
 
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
-
         company = self.env.user and self.env.user.company_id or False
         voucher = self.env['account.payment'].create({
             # 'company_id': company and company.id or False,
@@ -192,12 +192,12 @@ class TitheLine(models.Model):
             # 'pay_now': 'pay_now',
             # 'account_id': company and company.transit_account and
             # company.transit_account.id or False,
-            'payment_method_id' : self.env.ref("account.account_payment_method_manual_in").id,
+            'payment_method_id' : self.env.ref(
+                "account.account_payment_method_manual_in").id,
             'journal_id': company.tithe_journal.id,
             # 'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
             'payment_type': 'inbound',
             'amount' : self.amount
-
         })
         return voucher
 
@@ -259,14 +259,15 @@ class Offering(models.Model):
             category_id, category_name = category.pop(0)
             return category_id
 
-    name = fields.Many2one('ng_church.collection', string='Collection Source',
-                           default=_compute_default_collection)
-    section_id = fields.Many2one('church.sections', string="Church Section",
-                                 required=True)
+    name = fields.Many2one(
+        'ng_church.collection', string='Collection Source',
+        default=_compute_default_collection)
+    section_id = fields.Many2one(
+        'church.sections', string="Church Section", required=True)
     service_id = fields.Many2one('ng_church.program', string="Church Service")
     church_id = fields.Many2one('res.company', default=parish)
-    offering_line_ids = fields.One2many('ng_church.offering_line',
-                                        'offering_id', string='Offering')
+    offering_line_ids = fields.One2many(
+        'ng_church.offering_line', 'offering_id', string='Offering')
 
 
 class OfferingLine(models.Model):
@@ -298,25 +299,24 @@ class OfferingLine(models.Model):
 
     def _prepare_account_voucher(self):
         """Generate Account Voucher."""
-
         company = self.env.user and self.env.user.company_id or False
         voucher = self.env['account.payment'].create({
             # 'company_id': company and company.id or False,
             'partner_id': self.offeror_id.id,
-            'partner_type' : 'customer',
+            'partner_type': 'customer',
             # 'pay_now': 'pay_now',
             # 'account_id': company and company.transit_account and
             # company.transit_account.id or False,
-            'payment_method_id' : self.env.ref("account.account_payment_method_manual_in").id,
+            'payment_method_id': self.env.ref(
+                "account.account_payment_method_manual_in").id,
             'journal_id': company.tithe_journal.id,
             # 'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
             'payment_type': 'inbound',
-            'amount' : self.amount
+            'amount': self.amount
 
         })
         return voucher
 
-    
 
     # def _prepare_account_voucher_line(self, voucher_id):
     #     payload = {
@@ -357,20 +357,19 @@ class Pledge(models.Model):
     pledge_line_ids = fields.One2many('ng_church.pledge_line', 'pledge_id',
                                       string='Pledges')
 
-
     @api.model
     def _get_report_values(self, docids, data=None):
         docs = self.env['ng_church.pledge'].browse(docids)
         return {
-        'doc_ids': docs.ids,
-        'doc_model': 'ng_church.pledge',
-        'docs': self.env['ng_church.pledge_line'].browse(docids),
-        'presenter': self.reports_presenter
+            'doc_ids': docs.ids,
+            'doc_model': 'ng_church.pledge',
+            'docs': self.env['ng_church.pledge_line'].browse(docids),
+            'presenter': self.reports_presenter
         }
+
 
 class PledgeLine(models.Model):
     """."""
-
     _name = 'ng_church.pledge_line'
     _description = "NG Church Pledge Line"
 
@@ -379,21 +378,21 @@ class PledgeLine(models.Model):
     # replace ng_church.associate model with res.partner
 
     pledger = fields.Many2one('res.partner', string='Pledger')
-    
     # pledger = fields.Many2one('ng_church.associate', string='Pledger')
     amount = fields.Float(string='Pledged Amount')
-    balance = fields.Float(string='Balance',
-                           compute='_compute_balance', store=True)
-    paid = fields.Float(string='Paid', compute='_compute_total_paid',
-                        store=True)
+    balance = fields.Float(
+        string='Balance', compute='_compute_balance', store=True)
+    paid = fields.Float(
+        string='Paid', compute='_compute_total_paid', store=True)
     is_invoiced = fields.Char(string='Invoiced', default=False)
-    state = fields.Selection(selection=[('active', 'Active'),
-                                        ('fulfilled', 'Fulfilled')],
-                             default='active')
+    state = fields.Selection(selection=[
+        ('active', 'Active'),
+        ('fulfilled', 'Fulfilled')
+    ], default='active')
     pledge_id = fields.Many2one('ng_church.pledge', string='Pledge')
-    pledge_line_payment_ids = fields.One2many('ng_church.pledge_line_payment',
-                                              'pledge_line_id',
-                                              string='Pledge Payment')
+    pledge_line_payment_ids = fields.One2many(
+        'ng_church.pledge_line_payment', 'pledge_line_id',
+        string='Pledge Payment')
 
     @api.constrains('amount')
     def _check_valid_amount(self):
@@ -446,19 +445,20 @@ class PledgeLine(models.Model):
         # }
 
         template_id = self.env['ir.model.data'].get_object_reference(
-                'ng_church',
-                'ng_church_pledge_payment_email_template')[1]
+            'ng_church',
+            'ng_church_pledge_payment_email_template'
+        )[1]
         template_rec = self.env['mail.template'].browse(template_id)
         template_rec.send_mail(self.id, force_send=True)
-        # return {      
-        #      'type': 'ir.actions.act_window',  
-        #      'view_type': 'form',          
-        #      'view_mode': 'form',       
-        #      'res_model': 'mail.compose.message',   
-        #      'views': [(compose_form_id, 'form')],   
-        #      'view_id': compose_form_id,        
-        #      'target': 'new',          
-        #      'context': ctx,    
+        # return {
+        #      'type': 'ir.actions.act_window',
+        #      'view_type': 'form',
+        #      'view_mode': 'form',
+        #      'res_model': 'mail.compose.message',
+        #      'views': [(compose_form_id, 'form')],
+        #      'view_id': compose_form_id,
+        #      'target': 'new',
+        #      'context': ctx,
         #      }
 
         # return {
@@ -481,10 +481,10 @@ class PledgeLine(models.Model):
     #     return {res_id[0]: self.env.user.company_id.email}
 
 
-    def print_report_pledge_balance(self, docids, data=None):
-        print("::::;docs",docids)
+    def print_report(self, docids=None, data=None):
         docs = self.env['ng_church.pledge_line'].browse(docids)
-        return self.env.ref('ng_church.pledge_report_reg').report_action([], data=data)
+        return self.env.ref(
+            'ng_church.pledge_report_reg').report_action([], data=data)
 
         # return {
         # 'doc_ids': docs.ids,
@@ -492,7 +492,6 @@ class PledgeLine(models.Model):
         # 'docs': self.env['ng_church.pledge_line'].browse(docids),
         # }
         # datas = {'ids': self.env.context.get('active_ids', [])}
-        
 
     # def print_report(self):
     #     """Direct Report printing."""
@@ -506,15 +505,16 @@ class PledgeLine(models.Model):
         voucher = self.env['account.payment'].create({
             # 'company_id': company and company.id or False,
             'partner_id': self.pledger.id,
-            'partner_type' : 'customer',
+            'partner_type': 'customer',
             # 'pay_now': 'pay_now',
             # 'account_id': company and company.transit_account and
             # company.transit_account.id or False,
-            'payment_method_id' : self.env.ref("account.account_payment_method_manual_in").id,
+            'payment_method_id': self.env.ref(
+                "account.account_payment_method_manual_in").id,
             'journal_id': company.pledge_journal.id,
             # 'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
             'payment_type': 'inbound',
-            'amount' : self.amount
+            'amount': self.amount
 
         })
         return voucher
