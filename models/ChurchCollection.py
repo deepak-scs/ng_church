@@ -188,16 +188,16 @@ class TitheLine(models.Model):
         voucher = self.env['account.payment'].create({
             # 'company_id': company and company.id or False,
             'partner_id': self.tither.id,
-            'partner_type' : 'customer',
+            'partner_type': 'customer',
             # 'pay_now': 'pay_now',
             # 'account_id': company and company.transit_account and
             # company.transit_account.id or False,
-            'payment_method_id' : self.env.ref(
+            'payment_method_id': self.env.ref(
                 "account.account_payment_method_manual_in").id,
             'journal_id': company.tithe_journal.id,
             # 'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
             'payment_type': 'inbound',
-            'amount' : self.amount
+            'amount': self.amount
         })
         return voucher
 
@@ -301,18 +301,18 @@ class OfferingLine(models.Model):
         """Generate Account Voucher."""
         company = self.env.user and self.env.user.company_id or False
         voucher = self.env['account.payment'].create({
-            # 'company_id': company and company.id or False,
             'partner_id': self.offeror_id.id,
-            'partner_type': 'customer',
-            # 'pay_now': 'pay_now',
-            # 'account_id': company and company.transit_account and
-            # company.transit_account.id or False,
             'payment_method_id': self.env.ref(
                 "account.account_payment_method_manual_in").id,
             'journal_id': company.tithe_journal.id,
-            # 'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
             'payment_type': 'inbound',
             'amount': self.amount
+            # 'company_id': company and company.id or False,
+            # 'partner_type': 'customer',
+            # 'pay_now': 'pay_now',
+            # 'account_id': company and company.transit_account and
+            # company.transit_account.id or False,
+            # 'name': '{} Donation'.format(self.donor_id.name or 'Anonymous'),
 
         })
         return voucher

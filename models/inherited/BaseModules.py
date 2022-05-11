@@ -55,7 +55,7 @@ class Company(models.Model):
     _inherit = 'res.company'
 
     account = [('user_type_id', '=', 14)]
-    journal = [('type', '=', 'sale')]
+    journal = [('type', 'in', ['cash', 'bank'])]
     name = fields.Char(string='Church Name', required=True)
     rml_header1 = fields.Char(string='Church Tagline ')
     pastor_id = fields.One2many(
