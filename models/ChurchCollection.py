@@ -444,10 +444,8 @@ class PledgeLine(models.Model):
         #     'default_composition_mode': 'comment',
         # }
 
-        template_id = self.env['ir.model.data'].get_object_reference(
-            'ng_church',
-            'ng_church_pledge_payment_email_template'
-        )[1]
+        template_id = self.env['ir.model.data']._xmlid_to_res_id(
+            'ng_church.ng_church_pledge_payment_email_template')
         template_rec = self.env['mail.template'].browse(template_id)
         template_rec.send_mail(self.id, force_send=True)
         # return {
@@ -551,9 +549,10 @@ class PledgeLine(models.Model):
     def generate_pledge_voucher(self):
         """User Interface button call this method."""
         if not self.is_invoiced:
-            voucher_id = self._prepare_account_voucher()
-            # voucher_line_id = self._prepare_account_voucher_line(voucher_id)
+            self._prepare_account_voucher()
             self.is_invoiced = True
+            # voucher_id = self._prepare_account_voucher()
+            # voucher_line_id = self._prepare_account_voucher_line(voucher_id)
             # return voucher_line_id
         # raise UserError('Voucher already existed')
 
