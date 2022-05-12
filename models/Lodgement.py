@@ -84,6 +84,6 @@ class Lodgement(models.Model):
         move = self._prepare_account_move()
         self._prepare_second_account_move_line(move.id)  # credit line
         self._prepare_first_account_move_line(move.id)  # debit line
-        move.post()
+        move.action_post()
         self.name = move.name
         self.state = move.state
