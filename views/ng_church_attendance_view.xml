@@ -45,10 +45,21 @@
 						</group>
 						<notebook>
 							<page string="Attendance Record">
-								<field name="attendance_line_ids"/>
+								<field name="attendance_line_ids">
+									<tree editable="bottom">
+										<field name="attendance_id" invisible="1"/>
+										<field name="name" invisible="1"/>
+										<field name="date" required="1"/>
+										<field name="section_id" required="1"/>
+										<field name="male"/>
+										<field name="female"/>
+										<field name="guest"/>
+										<field name="children"/>
+										<field name="total"/>
+									</tree>
+								</field>
 							</page>
 					  </notebook>
-
 					</sheet>
 				</form>
 			</field>

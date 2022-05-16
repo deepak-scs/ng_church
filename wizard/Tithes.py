@@ -20,25 +20,11 @@ class ChurchTitheLineAbstractModel(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         docs = self.env['ng_church.tithe'].browse(docids)
         return {
-        'doc_ids': docs.ids,
-        'doc_model': 'ng_church.tithe',
-        'docs': self.env['ng_church.tithe_lines'].browse(docids),
-        'tithe_caculator': self.tithe_caculator
+            'doc_ids': docs.ids,
+            'doc_model': 'ng_church.tithe',
+            'docs': self.env['ng_church.tithe_lines'].browse(docids),
+            'tithe_caculator': self.tithe_caculator
         }
-
-    # @api.model
-    # def render_html(self, docids, data=None):
-    #     """."""
-    #     name = 'ng_church.church_tithe_report'
-    #     report_obj = self.env['report']
-    #     report = report_obj._get_report_from_name(name)
-    #     docargs = {
-    #         'doc_ids': docids,
-    #         'doc_model': report.model,
-    #         'docs': self.env['ng_church.tithe_lines'].browse(docids),
-    #         'tithe_caculator': self.tithe_caculator
-    #     }
-    #     return report_obj.render(name, docargs)
 
 
 class TitheReportWizard(models.Model):
@@ -48,14 +34,15 @@ class TitheReportWizard(models.Model):
     _description = "NG Church Tithe Wizard"
 
     date_from = fields.Date(string='Date from')
-    date_to = fields.Date(string='Date to',
-                          default=lambda self: datetime.datetime.now().
-                          strftime('%Y-%m-%d'))
-    tithe = fields.Selection(selection=[('all', 'All'), ('members', 'Members'),
-                                        ('pastor', 'Pastor'),
-                                        ('minister', 'Minister')],
-                             string='Category', default='all',
-                             required=True)
+    date_to = fields.Date(
+        string='Date to', default=lambda self: datetime.datetime.now(
+        ).strftime('%Y-%m-%d'))
+    tithe = fields.Selection(selection=[
+        ('all', 'All'),
+        ('members', 'Members'),
+        ('pastor', 'Pastor'),
+        ('minister', 'Minister')
+    ], string='Category', default='all', required=True)
 
     def _report_range(self, model, after, before):
         if after > before:
@@ -70,15 +57,17 @@ class TitheReportWizard(models.Model):
         model = model.filtered(lambda r: r.date <= before)
         return model
 
-    def check_report(self):
+    def print_tithe_report(self, docids=None, data=None):
         """."""
         query = self.tithe
         church = ('church_id', '=', self.env.user.company_id.id)
-        domain = [('tithe_type', '=', query),
-                  church] if self.tithe != 'all' else [church]
+        domain = [
+            ('tithe_type', '=', query), church
+        ] if self.tithe != 'all' else [church]
         tithes = self._report_range(self.env['ng_church.tithe_lines'].search(
             domain), self.date_from, self.date_to)
         if len(tithes) > 0:
-            return self.env['report'].\
-                get_action(tithes, 'ng_church.church_tithe_report')
+            return self.env.ref(
+                'ng_church.ng_church_tithe_line_report').report_action(
+                tithes, data=data)
         raise MissingError('Record not found')

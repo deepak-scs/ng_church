@@ -148,10 +148,15 @@
             name="Reporting"
             parent="church_main_menu"
         />
-		<menuitem id="ng_church_attendance_report"
+		<!-- <menuitem id="ng_church_attendance_report"
             name="Attendance"
             parent="ng_church_reporting_menu"
 			action="ng_church_attendance_report_action"
+        /> -->
+        <menuitem id="ng_church_attendance_report"
+            name="Attendance"
+            parent="ng_church_reporting_menu"
+            action="ng_church_attendance_report_action"
         />
 		<menuitem id="ng_church_collection_report"
             name="Church Collections"

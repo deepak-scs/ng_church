@@ -3,7 +3,7 @@
 from odoo.exceptions import UserError
 
 
-def _report_range(self, model, after, before):
+def _report_range(model, after, before):
     if after > before:
         raise UserError('Date from is ahead of date to')
     if after and before:

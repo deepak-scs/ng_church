@@ -53,10 +53,10 @@
                     <header>
                         <button name="print_report" string='Pledge Balance' type='object' class="oe_highlight"/>
                         <button name="send_by_email" string='Send By Email' type='object' class="oe_highlight"/>
+                        <button name="generate_pledge_voucher" string="Generate Voucher" class="oe_highlight oe_right" type="object" attrs="{'invisible':[('state', '!=', 'fulfilled')]}" groups="ng_church.church_administrator"/>
                         <field name="state" widget='statusbar'/>
                     </header>
                     <sheet>
-                        <button name="generate_pledge_voucher" string="Generate Voucher" class="oe_highlight oe_right" type="object" attrs="{'invisible':[('state', '!=', 'fulfilled')]}" groups="ng_church.church_administrator"/>
                         <group>
                             <group>
                                 <field name="date"/>
@@ -79,7 +79,6 @@
         <record id="church_pleadge_form" model="ir.ui.view">
             <field name='name'>church.pledge.form</field>
             <field name='model'>ng_church.pledge</field>
-            <field name='type'>form</field>
             <field name='arch' type='xml'>
                 <form string="Church Pledge">
                     <sheet>
@@ -122,7 +121,6 @@
         <record id='church_pleadge_tree' model='ir.ui.view'>
             <field name='name'>church.pledge.tree</field>
             <field name='model'>ng_church.pledge</field>
-            <field name='type'>tree</field>
             <field name='arch' type='xml'>
                 <tree>
                     <field name="name"/>
@@ -290,8 +288,7 @@
         <record id="church_donation_form" model="ir.ui.view">
             <field name='name'>Church Donation Form View</field>
             <field name='model'>ng_church.donation</field>
-            <field name='type'>form</field>
-            <field name='arch' type='xml'>
+            <field name="arch" type="xml">
                 <form string="Donation">
                     <sheet>
                         <group>
@@ -316,7 +313,6 @@
         <record id='church_donation_tree' model='ir.ui.view'>
             <field name='name'>Church Donation Tree View</field>
             <field name='model'>ng_church.donation</field>
-            <field name='type'>tree</field>
             <field name='arch' type='xml'>
                 <tree string='Donation' name="donation">
                     <field name="name"/>
@@ -329,7 +325,6 @@
         <record id="church_donation_line_form" model="ir.ui.view">
             <field name='name'>church_donation_line_form</field>
             <field name='model'>ng_church.donation_line</field>
-            <field name='type'>form</field>
             <field name='arch' type='xml'>
                 <form string="Donation">
                     <sheet>
@@ -359,7 +354,6 @@
         <record id='church_donation_line_tree' model='ir.ui.view'>
             <field name='name'>church_donation_line_tree</field>
             <field name='model'>ng_church.donation_line</field>
-            <field name='type'>tree</field>
             <field name='arch' type='xml'>
                 <tree default_order="date desc">
                     <field name="name"/>

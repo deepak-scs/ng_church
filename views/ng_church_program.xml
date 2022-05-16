@@ -4,7 +4,6 @@
         <record id="ng_church_program_form" model="ir.ui.view">
             <field name='name'>ng_church_program_form_view</field>
             <field name='model'>ng_church.program</field>
-            <field name='type'>form</field>
             <field name='arch' type='xml'>
                 <form string="Service Type">
                 <sheet>
@@ -41,7 +40,6 @@
         <record id='ng_church_program_tree' model='ir.ui.view'>
             <field name='name'>ng_church_program_tree_view</field>
             <field name='model'>ng_church.program</field>
-            <field name='type'>tree</field>
             <field name='arch' type='xml'>
                 <tree string='Service Type'>
                     <field name="name"/>
