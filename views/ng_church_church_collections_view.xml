@@ -245,6 +245,7 @@
             <field name="arch" type="xml">
                 <tree default_order="date desc">
                     <field name="name"/>
+                    <field name="date" invisible="1"/>
                     <field name="amount"/>
                 </tree>
             </field>
@@ -301,7 +302,7 @@
                             </group>
                         </group>
                         <notebook>
-                            <page>
+                            <page string="Donation">
                                 <field name="donation_line_ids"/>
                             </page>
                         </notebook>
@@ -357,6 +358,7 @@
             <field name='arch' type='xml'>
                 <tree default_order="date desc">
                     <field name="name"/>
+                    <field name="date" invisible="1"/>
                     <field name="donor_id"/>
                     <field name='amount'/>
                 </tree>
