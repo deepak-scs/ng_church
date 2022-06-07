@@ -2,7 +2,7 @@
 """Ng Church Attendance Model."""
 from odoo import api, fields, models
 from .helper import parish
-from .helper import program_default_date
+# from .helper import program_default_date
 from .helper import default_date
 
 
@@ -13,16 +13,16 @@ class ProgramAttendance(models.Model):
     _description = "NG Church Attendance"
 
     name = fields.Many2one('ng_church.program', string='Service')
-    date = fields.Date(string='Date')
+    # date = fields.Date(string='Date')
     parish_id = fields.Many2one('res.company', string='Parish', default=parish)
     attendance_line_ids = fields.One2many(
         'ng_church.attendance_line', 'attendance_id',
         string='Program Attendance')
 
-    @api.onchange('name')
-    def _onchange_name(self):
-        date = program_default_date(self)
-        self.date = date
+    # @api.onchange('name')
+    # def _onchange_name(self):
+    #     date = program_default_date(self)
+    #     self.date = date
 
 
 class AttendanceLine(models.Model):

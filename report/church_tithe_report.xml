@@ -31,7 +31,7 @@
                                             <span t-field="tithes.tither"/>
                                         </td>
                                         <td width="150px">
-                                            <span t-field="tithes.amount"/>
+                                            <span t-field="tithes.amount" t-options='{"widget": "monetary", "display_currency": tithes.currency_id}'/>
                                         </td>
                                     </tr>
                                 </t>
@@ -39,7 +39,7 @@
                                     <td width="150px" margin-left="150px"></td>
                                     <td width="150px"></td>
                                     <td width="150px"><b>Total</b></td>
-                                    <td width="150px"><t t-esc="tithe_caculator(docs)"/></td>
+                                    <td width="150px"><t t-esc="tithe_caculator(docs)" t-options='{"widget": "monetary", "display_currency": tithes.currency_id}'/></td>
                                 </tr>
                             </tbody>
                         </table>

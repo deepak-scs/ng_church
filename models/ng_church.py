@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Legacy code. As time goes on this should be incrementally refactored."""
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ChurchSection(models.Model):
@@ -25,6 +26,12 @@ class MembershipCategory(models.Model):
     name = fields.Char('Name', required=True)
     start_age = fields.Integer('Age Start')
     end_age = fields.Integer('Age End')
+
+    @api.constrains('start_age', 'end_age')
+    def _check_start_age_end_age(self):
+        for rec in self:
+            if rec.start_age > rec.end_age:
+                raise ValidationError('Age start is less than age end!')
 
 
 class MembershipType(models.Model):

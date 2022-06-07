@@ -24,14 +24,14 @@
                                         <td width="150px" margin-left="150px"><span t-field="donation.name"/></td>
                                         <td width="150px"><span t-field="donation.donor_id"/></td>
                                         <td width="150px"></td>
-                                        <td width="150px"><span t-field="donation.amount"/></td>
+                                        <td width="150px"><span t-field="donation.amount" t-options='{"widget": "monetary", "display_currency": donation.currency_id}'/></td>
                                     </tr>
                                 </t>
                                 <tr class="row">
                                     <td width="150px" margin-left="150px"></td>
                                     <td width="150px" margin-left="150px"></td>
                                     <td width="150px" margin-left="150px"><b>Total</b></td>
-                                    <td width="150px" margin-left="150px"><b t-esc="donation_caculator(docs)"/></td>
+                                    <td width="150px" margin-left="150px"><b t-esc="donation_caculator(docs)" t-options='{"widget": "monetary", "display_currency": donation.currency_id}'/></td>
                                 </tr>
                             </tbody>
                         </table>

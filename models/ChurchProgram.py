@@ -1,7 +1,8 @@
 # *-* coding:utf-8 -*-
 """."""
-from odoo import fields, models
+from odoo import api, fields, models
 from .helper import parish
+from odoo.exceptions import ValidationError
 
 
 class ChurchProgram(models.Model):
@@ -30,3 +31,29 @@ class ChurchProgram(models.Model):
         ('PM', 'PM')
     ], string='')
     parish_id = fields.Many2one('res.company', string='Parish', default=parish)
+
+    @api.constrains('start', 'end')
+    def _check_start_end_time(self):
+        for rec in self:
+            if rec.start > 12 or rec.end > 12:
+                raise ValidationError('Start time or End time less than 12')
+            if rec.end < rec.start:
+                if rec.start_meridiem == rec.end_meridiem:
+                    raise ValidationError(
+                        'Start time is not greater than end time')
+            if rec.end == rec.start:
+                if rec.start_meridiem == rec.end_meridiem:
+                    raise ValidationError(
+                        'Start time and end time should be different!.')
+
+    @api.constrains('start_meridiem', 'end_meridiem')
+    def _check_start_meridiem_end_meridiem(self):
+        for rec in self:
+            if rec.end < rec.start:
+                if rec.start_meridiem == rec.end_meridiem:
+                    raise ValidationError(
+                        'Start time is not greater than end time')
+            if rec.end == rec.start:
+                if rec.start_meridiem == rec.end_meridiem:
+                    raise ValidationError(
+                        'Start time and end time should be different!.')

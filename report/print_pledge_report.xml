@@ -9,9 +9,9 @@
                             <div class="container">
                                 <h3>Dear <t t-esc="o.pledger.name"/>, </h3>
                                 <p>
-                                    &#160; &#160; &#160; &#160; Thank you for your continued support to the development of the church of God.
-                                    Please note that the total amount due from your <t t-esc="o.pledge_id.name.name"/> pledge to the church of God is:
-                                    <b>#<t t-esc="o.balance"/></b>
+                                    &#160; &#160; &#160; &#160; Thank you for your continued support to the development of the church.
+                                    Please note that the total amount due from your <t t-esc="o.pledge_id.name.name"/> pledge to the church is:
+                                    <b><t t-esc="o.balance"/></b>
                                 </p>
                                 <p> Thank you and God bless!</p>
                                 <p style="text-align:right"><em>Yours Faithfully</em></p>

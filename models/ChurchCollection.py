@@ -51,6 +51,9 @@ class DonationLine(models.Model):
     is_invoiced = fields.Boolean(string='Invoiced', readonly=True)
     notes = fields.Char(related='donation_id.name.name', string='Notes')
     church_id = fields.Many2one('res.company', default=parish)
+    currency_id = fields.Many2one(
+        'res.currency', string='Currency',
+        default=lambda self: self.env.user.company_id.currency_id)
 
     @api.constrains('amount')
     def _check_valid_amount(self):
@@ -168,6 +171,9 @@ class TitheLine(models.Model):
     tithe_id = fields.Many2one('ng_church.tithe', string='Tithe')
     amount = fields.Float('Amount', required=True)
     church_id = fields.Many2one('res.company', default=parish)
+    currency_id = fields.Many2one(
+        'res.currency', string='Currency',
+        default=lambda self: self.env.user.company_id.currency_id)
 
     @api.constrains('amount')
     def _check_valid_amount(self):
@@ -283,6 +289,9 @@ class OfferingLine(models.Model):
     amount = fields.Float(string='Amount')
     offering_id = fields.Many2one('ng_church.offering', string='Offering')
     church_id = fields.Many2one('res.company', default=parish)
+    currency_id = fields.Many2one(
+        'res.currency', string='Currency',
+        default=lambda self: self.env.user.company_id.currency_id)
 
     @api.constrains('amount')
     def _check_valid_amount(self):

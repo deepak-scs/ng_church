@@ -44,8 +44,10 @@
                 <tree string='Service Type'>
                     <field name="name"/>
                     <field name='days'/>
-                    <field name="start"/>
-                    <field name="end"/>
+                    <field name="start" widget="float_time"/>
+                    <field name="start_meridiem" string=" "/>
+                    <field name="end" widget="float_time"/>
+                    <field name="end_meridiem" string=" "/>
                 </tree>
             </field>
         </record>
