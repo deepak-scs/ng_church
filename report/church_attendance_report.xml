@@ -7,7 +7,7 @@
                     <div class="page">
                         <h2 class="text-center" style="text-transform:uppercase">ATTENDANCE REPORT</h2>
                         <h5 class="text-center" style="text-transform:uppercase">
-                            <u><span t-field="docs.name.name"/></u>
+                            <u><span t-field="docs.name"/></u>
                         </h5>
                         <t t-set="male_total" t-value="0.0"/>
                         <t t-set="female_total" t-value="0.0"/>
@@ -30,8 +30,8 @@
                                 <t t-foreach="attendance_lines" t-as="line">
                                     <tr class="row">
                                         <td width="130px">
-                                            <t t-if="line.name">
-                                                <span t-field="line.name"/>
+                                            <t t-if="line.attendance_id.date">
+                                                <span t-field="line.attendance_id.date"/>
                                             </t>
                                         </td>
                                         <td width="130px">

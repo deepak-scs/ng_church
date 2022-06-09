@@ -9,6 +9,8 @@
 			<field name="arch" type="xml">
 				<search>
 					<filter name='Partner' string="Partner" context="{'group_by':'parish_id'}"/>
+					<filter name='date' string="Date" context="{'group_by':'date'}"/>
+					<filter name='program' string="Service" context="{'group_by':'program_id'}"/>
 					<filter string="Parish" name="parish_id" domain="[('parish_id', '=', 2)]"/>
 				</search>
 			</field>
@@ -20,8 +22,8 @@
 			<field name="model">ng_church.attendance</field>
 			<field name="arch" type="xml">
 				<tree>
-					<field name="name"/>
-					<!-- <field name="date"/> -->
+					<field name="program_id"/>
+					<field name="date"/>
 				</tree>
 			</field>
 		</record>
@@ -35,10 +37,10 @@
 					<sheet>
 						<group>
 							<group>
-								<field name="name"/>
+								<field name="program_id" options='{"no_open": True, "no_create": True}'/>
 							</group>
 						<group>
-							<!-- <field name="date"/> -->
+							<field name="date"/>
 							<field name="parish_id" invisible="1"/>
 						</group>
 
@@ -48,8 +50,8 @@
 								<field name="attendance_line_ids">
 									<tree editable="bottom">
 										<field name="attendance_id" invisible="1"/>
-										<field name="name" invisible="1"/>
-										<field name="date" required="1"/>
+										<!-- <field name="name" invisible="1"/> -->
+										<!-- <field name="date" required="1"/> -->
 										<field name="section_id" required="1"/>
 										<field name="male"/>
 										<field name="female"/>
@@ -71,7 +73,7 @@
 			<field name="model">ng_church.attendance_line</field>
 			<field name="arch" type="xml">
 				<tree>
-					<field name="name"/>
+					<!-- <field name="name"/> -->
 					<field name="section_id"/>
 					<field name="male"/>
 					<field name="female"/>
@@ -91,9 +93,9 @@
 					<sheet>
 						<group>
 							<group>
-								<field name="date"/>
+								<!-- <field name="date"/> -->
 								<field name="section_id"/>
-								<field name="name" invisible="1"/>
+								<!-- <field name="name" invisible="1"/> -->
 						    </group>
 							<group attrs="{'invisible':[('section_id', '=',1)]}">
 	                            <field name="male"/>
