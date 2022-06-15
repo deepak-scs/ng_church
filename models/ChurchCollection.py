@@ -24,9 +24,13 @@ class Donation(models.Model):
 
     _name = 'ng_church.donation'
     _description = "NG Church Donation"
+    _rec_name = 'project_id'
 
-    name = fields.Many2one('project.project', 'Project', required=True)
-    start_date = fields.Date(related='name.x_date', string='Start Date')
+    project_id = fields.Many2one('project.project', 'Project', required=True)
+    start_date = fields.Date(
+        related='project_id.date_start', string='Start Date')
+    end_date = fields.Date(
+        related='project_id.date', string='End Date')
     notes = fields.Text(string='Note')
     church_id = fields.Many2one('res.company', default=parish)
     donation_line_ids = fields.One2many(
@@ -43,13 +47,14 @@ class DonationLine(models.Model):
     _name = 'ng_church.donation_line'
     _description = "NG Church Donation Line"
 
-    donation_id = fields.Many2one('ng_church.donation', string='Donation')
+    donation_id = fields.Many2one(
+        'ng_church.donation', ondelete='cascade', string='Donation')
     name = fields.Char(string='Name')
     date = fields.Date(string='Date', required=True)
     donor_id = fields.Many2one('res.partner', string='Donor')
     amount = fields.Float(string='Donated Amount', required=True)
     is_invoiced = fields.Boolean(string='Invoiced', readonly=True)
-    notes = fields.Char(related='donation_id.name.name', string='Notes')
+    notes = fields.Char(related='donation_id.project_id.name', string='Notes')
     church_id = fields.Many2one('res.company', default=parish)
     currency_id = fields.Many2one(
         'res.currency', string='Currency',
@@ -168,7 +173,8 @@ class TitheLine(models.Model):
     ], string='Category', default='members')
     tither = fields.Many2one('res.partner')
     is_invoiced = fields.Boolean(string='Invoiced', readonly=True)
-    tithe_id = fields.Many2one('ng_church.tithe', string='Tithe')
+    tithe_id = fields.Many2one(
+        'ng_church.tithe', ondelete='cascade', string='Tithe')
     amount = fields.Float('Amount', required=True)
     church_id = fields.Many2one('res.company', default=parish)
     currency_id = fields.Many2one(
@@ -287,7 +293,8 @@ class OfferingLine(models.Model):
     is_invoiced = fields.Boolean(string='Invoiced')
     offeror_id = fields.Many2one('res.partner', string='Offeror')
     amount = fields.Float(string='Amount')
-    offering_id = fields.Many2one('ng_church.offering', string='Offering')
+    offering_id = fields.Many2one(
+        'ng_church.offering', ondelete='cascade', string='Offering')
     church_id = fields.Many2one('res.company', default=parish)
     currency_id = fields.Many2one(
         'res.currency', string='Currency',
@@ -359,9 +366,11 @@ class Pledge(models.Model):
 
     _name = 'ng_church.pledge'
     _description = "NG Church Pledge"
+    _rec_name = 'project_id'
 
-    name = fields.Many2one('project.project', string='Project', required=True)
-    date = fields.Date(related='name.x_date', string='Date')
+    project_id = fields.Many2one('project.project', string='Project', required=True)
+    date_start = fields.Date(related='project_id.date_start', string='Start Date')
+    end_date = fields.Date(related='project_id.date', string='End Date')
     church_id = fields.Many2one('res.company', default=parish)
     pledge_line_ids = fields.One2many('ng_church.pledge_line', 'pledge_id',
                                       string='Pledges')
@@ -382,7 +391,7 @@ class PledgeLine(models.Model):
     _name = 'ng_church.pledge_line'
     _description = "NG Church Pledge Line"
 
-    name = fields.Char(string='Name', related='pledge_id.name.name')
+    name = fields.Char(string='Name', related='pledge_id.project_id.name')
     date = fields.Date(string='Pledged Date', required=True)
     # replace ng_church.associate model with res.partner
 
@@ -398,10 +407,14 @@ class PledgeLine(models.Model):
         ('active', 'Active'),
         ('fulfilled', 'Fulfilled')
     ], default='active')
-    pledge_id = fields.Many2one('ng_church.pledge', string='Pledge')
+    pledge_id = fields.Many2one(
+        'ng_church.pledge', ondelete='cascade', string='Pledge')
     pledge_line_payment_ids = fields.One2many(
         'ng_church.pledge_line_payment', 'pledge_line_id',
         string='Pledge Payment')
+    currency_id = fields.Many2one(
+        'res.currency', string='Currency',
+        default=lambda self: self.env.user.company_id.currency_id)
 
     @api.constrains('amount')
     def _check_valid_amount(self):

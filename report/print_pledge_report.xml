@@ -10,7 +10,7 @@
                                 <h3>Dear <t t-esc="o.pledger.name"/>, </h3>
                                 <p>
                                     &#160; &#160; &#160; &#160; Thank you for your continued support to the development of the church.
-                                    Please note that the total amount due from your <t t-esc="o.pledge_id.name.name"/> pledge to the church is:
+                                    Please note that the total amount due from your <t t-esc="o.pledge_id.project_id.name"/> pledge to the church is:
                                     <b><t t-esc="o.balance"/></b>
                                 </p>
                                 <p> Thank you and God bless!</p>

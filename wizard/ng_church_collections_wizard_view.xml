@@ -9,7 +9,7 @@
                     <group>
                         <group>
                             <field name="date_from" required="1"/>
-                            <field name="pledge"/>
+                            <field name="pledge" options='{"no_open": True, "no_create": True}'/>
                         </group>
                         <group>
                             <field name="date_to" required="1"/>
@@ -84,7 +84,10 @@
                             <field name="date_to" required="1"/>
                         </group>
                         <group>
-                            <field name="offering" class="oe_center"/>
+                            <field name="service_id" class="oe_center" options='{"no_open": True, "no_create": True}'/>
+                        </group>
+                        <group>
+                            <field name="section_id" class="oe_center" options='{"no_open": True, "no_create": True}'/>
                         </group>
                     </group>
                    <footer>
@@ -102,13 +105,11 @@
                 <form>
                     <group>
                         <group>
+                            <field name="project_id" class="oe_center" options='{"no_open": True, "no_create": True}'/>
+                        </group>
+                        <group>
                             <field name="date_from" required="1"/>
-                        </group>
-                        <group>
                             <field name="date_to" required="1"/>
-                        </group>
-                        <group>
-                            <field name="donation" class="oe_center"/>
                         </group>
                     </group>
                    <footer>

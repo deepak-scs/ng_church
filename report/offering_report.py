@@ -10,16 +10,15 @@ class ChurchOfferingLineAbstractModel(models.AbstractModel):
     _name = 'report.ng_church.church_offering_report'
     _description = "Report NG Church Church Offering Report"
 
-    def offering_caculator(self, model):
-        """offering_caculator."""
-        return sum(offering.amount for offering in model)
-
     @api.model
     def _get_report_values(self, docids, data=None):
-        docs = self.env['ng_church.offering'].browse(docids)
+        docs = self.env['ng_church.program'].browse(
+            data.get('docids'))
+        offering_lines = self.env['ng_church.offering_line'].browse(
+            data.get('offering_lines'))
         return {
             'doc_ids': docs.ids,
-            'doc_model': 'ng_church.offering',
-            'docs': self.env['ng_church.offering_line'].browse(docids),
-            'offering_caculator': self.offering_caculator
+            'doc_model': 'ng_church.program',
+            'docs': docs,
+            'offering_lines': offering_lines,
         }

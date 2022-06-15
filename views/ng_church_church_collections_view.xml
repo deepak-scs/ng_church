@@ -84,10 +84,11 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="project_id"/>
                             </group>
                             <group>
-                                <field name="date" readonly="1"/>
+                                <field name="date_start" readonly="1"/>
+                                <field name="end_date" readonly="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -97,7 +98,8 @@
                                         <field name="date"/>
                                         <field name="pledger"/>
                                         <field name="state"/>
-                                        <field name="amount" widget="monetary"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     </tree>
                                 </field>
                             </page>
@@ -123,7 +125,9 @@
             <field name='model'>ng_church.pledge</field>
             <field name='arch' type='xml'>
                 <tree>
-                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="date_start"/>
+                    <field name="end_date"/>
                 </tree>
             </field>
         </record>
@@ -134,7 +138,7 @@
             <field name='type'>search</field>
             <field name='arch' type='xml'>
                 <search string='Church Pledge'>
-                    <field name="name"/>
+                    <field name="project_id"/>
                 </search>
             </field>
         </record>
@@ -245,8 +249,9 @@
             <field name="model">ng_church.offering_line</field>
             <field name="arch" type="xml">
                 <tree default_order="date desc">
-                    <field name="name"/>
+                    <field name="name" string="Offering Date"/>
                     <field name="date" invisible="1"/>
+                    <field name="offeror_id"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                 </tree>
@@ -263,6 +268,8 @@
                             <group>
                                 <field name="name" readonly="1"/>
                                 <field name="service_id"/>
+                            </group>
+                            <group>
                                 <field name="section_id"/>
                             </group>
                         </group>
@@ -296,11 +303,12 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="start_date" readonly="1"/>
+                                <field name="project_id"/>
+                                <field name="notes"/>
                             </group>
                             <group>
-                                <field name="notes"/>
+                                <field name="start_date" readonly="1"/>
+                                <field name="end_date" readonly="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -318,8 +326,9 @@
             <field name='model'>ng_church.donation</field>
             <field name='arch' type='xml'>
                 <tree string='Donation' name="donation">
-                    <field name="name"/>
+                    <field name="project_id"/>
                     <field name="start_date"/>
+                    <field name="end_date"/>
                     <field name='notes'/>
                 </tree>
             </field>
@@ -359,7 +368,7 @@
             <field name='model'>ng_church.donation_line</field>
             <field name='arch' type='xml'>
                 <tree default_order="date desc">
-                    <field name="name"/>
+                    <field name="name" string="Donation Date"/>
                     <field name="date" invisible="1"/>
                     <field name="donor_id"/>
                     <field name="currency_id" invisible="1"/>

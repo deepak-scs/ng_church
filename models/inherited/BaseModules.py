@@ -5,15 +5,15 @@ import re
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from ..helper import parish
-from ..helper import default_date
+# from ..helper import default_date
 # import odoo.addons.decimal_precision as dp
 
 
-class Project(models.Model):
-    """add x_date field to project model."""
+# class Project(models.Model):
+#     """add x_date field to project model."""
 
-    _inherit = 'project.project'
-    x_date = fields.Date(string='Start date', default=default_date)
+#     _inherit = 'project.project'
+#     x_date = fields.Date(string='Start date', default=default_date)
 
 
 # class AccountVoucherLine(models.Model):

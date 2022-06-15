@@ -16,35 +16,29 @@ class OfferingReportWizard(models.TransientModel):
     date_to = fields.Date(
         string='Date to',
         default=lambda self: datetime.datetime.now().strftime('%Y-%m-%d'))
-    offering = fields.Many2one('ng_church.program', required=True)
-
-    def _report_range(self, model, after, before):
-        if after > before:
-            raise UserError('Date from is ahead of date to')
-        if after and before:
-            model = model.filtered(lambda r: r.date >= after)
-            model = model.filtered(lambda r: r.date <= before)
-            return model
-        elif after:
-            model = model.filtered(lambda r: r.date >= after)
-            return model
-        model = model.filtered(lambda r: r.date <= before)
-        return model
+    service_id = fields.Many2one(
+        'ng_church.program', required=True, string='Church Service')
+    section_id = fields.Many2one(
+        'church.sections', string="Church Section", required=True)
 
     def print_offering_report(self, docids=None, data=None):
         """."""
-        query = self.offering
-        church = ('church_id', '=', self.env.user.company_id.id)
-        services = self.env['ng_church.offering'].search([
-            ('service_id', '=', query.id), church])
-        offering_line = self.env['ng_church.offering_line']
-        for offering in services:
-            offering_line += offering_line.search(
-                [('offering_id', '=', offering.id), church])
-        offerings = self._report_range(
-            offering_line, self.date_from, self.date_to)
-        if len(offerings) > 0:
+        offering_rec = self.env['ng_church.offering'].search([
+            ('service_id', '=', self.service_id.id),
+            ('section_id', '=', self.section_id.id),
+        ])
+        offering_line_rec = self.env['ng_church.offering_line'].search([
+            ('offering_id', 'in', offering_rec.ids),
+            ('date', '>=', self.date_from),
+            ('date', '<=', self.date_to)
+        ])
+        if offering_line_rec:
+            datas = {
+                'offering_lines': offering_line_rec.ids,
+                'docids': self.service_id.id
+            }
             return self.env.ref(
                 'ng_church.ng_church_offering_report').report_action(
-                offerings, data=data)
-        raise MissingError('Record not found')
+                self.service_id, data=datas)
+        else:
+            raise MissingError('Data not found!')

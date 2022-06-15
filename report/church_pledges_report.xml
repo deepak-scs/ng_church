@@ -7,7 +7,7 @@
                     <div class="page">
                         <h2 class="text-center" style="text-transform:uppercase">Pledge Payment REPORT</h2>
                         <h5 class="text-center" style="text-transform:uppercase">
-                            <u><span t-field="docs.name.name"/></u>
+                            <u><span t-field="docs.project_id"/></u>
                         </h5>
                         <table class="table" style="width:100%;">
                             <thead>
@@ -24,9 +24,9 @@
                                     <tr class="row">
                                         <td width="150px" margin-left="150px"><span t-field="line.name"/></td>
                                         <td width="150px"><span t-esc="line.pledger.name"/></td>
-                                        <td width="150px"><span t-esc="line.amount"/></td>
-                                        <td width="150px"><span t-field="line.paid"/></td>
-                                        <td width="150px"><span t-field="line.balance"/></td>
+                                        <td width="150px"><span t-esc="line.amount" t-options='{"widget": "monetary", "display_currency": line.currency_id}'/></td>
+                                        <td width="150px"><span t-field="line.paid" t-options='{"widget": "monetary", "display_currency": line.currency_id}'/></td>
+                                        <td width="150px"><span t-field="line.balance" t-options='{"widget": "monetary", "display_currency": line.currency_id}'/></td>
                                     </tr>
                                 </t>
                             </tbody>
